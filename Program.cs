@@ -9,6 +9,7 @@ class Program
 		{
 			Console.WriteLine(pokemon.Name);
 		}
+		Console.ReadKey();
 
 	}
 }
