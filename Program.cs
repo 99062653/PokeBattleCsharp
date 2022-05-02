@@ -110,6 +110,7 @@ ______     _       ______       _   _   _
 				{
 					attackCount++;
 					Console.WriteLine(" " + attackCount + ": " + attack.Key  + " => " + attack.Value);
+					Thread.Sleep(50);
 				}
 
 				Console.WriteLine("-Weakness: ");
@@ -124,6 +125,7 @@ ______     _       ______       _   _   _
 					Console.ResetColor();
 					Console.Write(" => " + weakness.Value);
 					Console.WriteLine("");
+					Thread.Sleep(50);
 				}
 
 				Console.WriteLine("-Resistance: ");
@@ -138,6 +140,7 @@ ______     _       ______       _   _   _
 					Console.ResetColor();
 					Console.Write(" => " + resistance.Value);
 					Console.WriteLine("");
+					Thread.Sleep(50);
 				}
 				Console.WriteLine("");
 
