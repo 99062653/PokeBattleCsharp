@@ -183,6 +183,7 @@ class Program
 	{
 		List<int> friendlyAttacks = new List<int>();
 		List<int> enemyAttacks = new List<int>();
+		Boolean yourTurn = true;
 
 		Console.Clear();
 		Console.ForegroundColor = ConsoleColor.Magenta;
