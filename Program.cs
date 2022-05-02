@@ -1,4 +1,4 @@
-﻿using Pokemons;
+﻿using PokemonsSpace;
 
 class Program
 {
@@ -30,29 +30,34 @@ class Program
 	public ConsoleColor getColorByEnergyType(string EnergyType)
 	{
 		ConsoleColor CorrectColor;
-
-		Pokemons.Pokemons.EnergytypeAndColors.TryGetValue(EnergyType, out CorrectColor);
+		Pokemons.EnergytypeAndColors.TryGetValue(EnergyType, out CorrectColor);
 
 		return CorrectColor;
+	}
+
+	public void displayColors(string energyColor)
+	{
+		Console.BackgroundColor = getColorByEnergyType(energyColor);
+		Console.ForegroundColor = ConsoleColor.Black;
 	}
 
 	public void loadPokemon(int generation)
 	{
 		Program Game = new Program();
-		var Group = Pokemons.Pokemons.Population;
+		var Group = Pokemons.Population;
 		switch (generation)
 		{
 			case 0:
-				Group = Pokemons.Pokemons.Population;
+				Group = Pokemons.Population;
 				break;
 			case 1:
-				Group = Pokemons.Pokemons.PopulationFirstGen;
+				Group = Pokemons.PopulationFirstGen;
 				break;
 			case 2:
-				Group = Pokemons.Pokemons.PopulationSecondGen;
+				Group = Pokemons.PopulationSecondGen;
 				break;
 			case 3:
-				Group = Pokemons.Pokemons.PopulationThirdGen;
+				Group = Pokemons.PopulationThirdGen;
 				break;
 		}
 
@@ -62,8 +67,7 @@ class Program
 			numberCount++;
 			NumberedPokemons.Add(numberCount, pokemon);
 			Console.Write(numberCount + " " + pokemon.Name + ": ");
-			Console.BackgroundColor = Game.getColorByEnergyType(pokemon.EnergyType);
-			Console.ForegroundColor = ConsoleColor.Black;
+			displayColors(pokemon.EnergyType);
 			Console.Write(pokemon.EnergyType);
 			Console.ResetColor();
 			Console.Write(" => " + pokemon.HitPoints + "/" + pokemon.Health + "\r\n");
@@ -80,14 +84,14 @@ class Program
 			Console.WriteLine("");
 			Console.WriteLine("Type het NUMMER van de Pokemon die je wil spelen...");
 		}
-		else
+		else if(WhichPokemon == "Enemy")
 		{
 			Console.WriteLine("");
 			Console.WriteLine("Type het NUMMER van de Pokemon waar je tegen wil spelen...");
 		}
 
 		string inputText = Console.ReadLine().ToString();
-		if (inputText != "" && inputText != " ")
+		if (inputText != "" && inputText != " " && inputText.All(char.IsDigit)) //niet leeg, en alle characters moeten een nummer zijn
 		{
 			int inputNumber = Convert.ToInt32(inputText);
 			if (NumberedPokemons.ContainsKey(inputNumber))
@@ -96,8 +100,7 @@ class Program
 				Console.WriteLine("Gekozen Pokemon: " + ChosenPokemon.Name);
 
 				Console.Write("-EnergyType: ");
-				Console.BackgroundColor = getColorByEnergyType(ChosenPokemon.EnergyType);
-				Console.ForegroundColor = ConsoleColor.Black;
+				displayColors(ChosenPokemon.EnergyType);
 				Console.Write(ChosenPokemon.EnergyType);
 				Console.ResetColor();
 
@@ -119,8 +122,7 @@ class Program
 				{
 					weaknessCount++;
 					Console.Write(" " + weaknessCount + ": ");
-					Console.BackgroundColor = getColorByEnergyType(weakness.Key);
-					Console.ForegroundColor = ConsoleColor.Black;
+					displayColors(weakness.Key);
 					Console.Write(weakness.Key);
 					Console.ResetColor();
 					Console.Write(" => " + weakness.Value);
@@ -134,8 +136,7 @@ class Program
 				{
 					resistanceCount++;
 					Console.Write(" " + resistanceCount + ": ");
-					Console.BackgroundColor = getColorByEnergyType(resistance.Key);
-					Console.ForegroundColor = ConsoleColor.Black;
+					displayColors(resistance.Key);
 					Console.Write(resistance.Key);
 					Console.ResetColor();
 					Console.Write(" => " + resistance.Value);
@@ -162,7 +163,8 @@ class Program
 				}
 				else if (inputChoice == ConsoleKey.N)
 				{
-					Console.WriteLine(" Okay, kies opnieuw...");
+					Console.WriteLine("");
+					Console.WriteLine("Okay, kies opnieuw...");
 					choosePokemon(WhichPokemon);
 				}
 			}
@@ -183,7 +185,7 @@ class Program
 	{
 		List<int> friendlyAttacks = new List<int>();
 		List<int> enemyAttacks = new List<int>();
-		Boolean yourTurn = true;
+		//Boolean yourTurn = true;
 
 		Console.Clear();
 		Console.ForegroundColor = ConsoleColor.Magenta;
@@ -204,19 +206,9 @@ class Program
 		Console.WriteLine("");
 
 		Console.ReadKey();
-
-		foreach (int attackdamage in friendlyAttacks)
-		{
-			PokemonFriendly.attackPokemon(PokemonEnemy, attackdamage);
-		}
-
-		foreach (int attackdamage in enemyAttacks)
-		{
-			PokemonEnemy.attackPokemon(PokemonFriendly, attackdamage);
-		}
 	}
 
-	public static void Main()
+	public void startGame()
 	{
 		Program Game = new Program();
 		Game.Settings();
@@ -245,4 +237,11 @@ class Program
 			}
 		}
 	}
+
+	public static void Main()
+	{
+		Program actualGame = new Program();
+		actualGame.startGame();
+	}
+
 }

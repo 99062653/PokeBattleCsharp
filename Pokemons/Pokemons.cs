@@ -1,4 +1,4 @@
-namespace Pokemons 
+namespace PokemonsSpace
 {
 	class Pokemons 
 	{
@@ -55,7 +55,7 @@ namespace Pokemons
 		public IDictionary<string, int> Weakness = new Dictionary<string, int>();
 		public IDictionary<string, int> Resistance = new Dictionary<string, int>();
 		public int Generation;
-		
+
 		public Pokemon(string name, string energyType, int health, int hitPoints, IDictionary<string, int> attacks, IDictionary<string, int> weakness, IDictionary<string, int> resistance, int generation)
 		{
 			this.Name = name;
