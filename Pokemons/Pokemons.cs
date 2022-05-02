@@ -81,11 +81,23 @@ namespace Pokemons
 					Pokemon.PopulationThirdGen.Add(this);
 					break;
 			}
-			{
-
-			}
 		}
 		
+		public void attackPokemon(Pokemon enemypokemon, int attackdamage)
+		{
+			if (enemypokemon.Weakness.ContainsKey(this.EnergyType))
+			{
+				enemypokemon.HitPoints = enemypokemon.HitPoints - (attackdamage * enemypokemon.Weakness[this.EnergyType]);
+			} 
+			else if (enemypokemon.Resistance.ContainsKey(this.EnergyType))
+			{
+				enemypokemon.HitPoints = enemypokemon.HitPoints - (attackdamage * enemypokemon.Resistance[this.EnergyType]); // resistance werkt hetzelfde als weakness atm
+			}
+			else
+			{
+				enemypokemon.HitPoints = enemypokemon.HitPoints - attackdamage;
+			}
+		}
 	}
 
 	class Init

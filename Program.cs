@@ -7,17 +7,17 @@ class Program
 	public static Boolean loadThirdGenPokemons = true;
 
 	public static IDictionary<int, Pokemon> NumberedPokemons = new Dictionary<int, Pokemon>();
-	public static Pokemon PokemonChosen;
+	public static Pokemon PokemonFriendly;
 	public static Pokemon PokemonEnemy;
 
 // de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
 	public static string Logo = @" 
-______     _       ______       _   _   _      
-| ___ \   | |      | ___ \     | | | | | |     
-| |_/ /__ | | _____| |_/ / __ _| |_| |_| | ___          ___  _      _     _  _        _                        
-|  __/ _ \| |/ / _ \ ___ \/ _` | __| __| |/ _ \        | _ \(_) __ | |__ | || | _  _ (_) ___ _ __   __ _  _ _  
-| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/        |   /| |/ _|| / / | __ || || || |(_-<| '  \ / _` || ' \ 
-\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|        |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
+	______     _       ______       _   _   _      
+	| ___ \   | |      | ___ \     | | | | | |     
+	| |_/ /__ | | _____| |_/ / __ _| |_| |_| | ___          ___  _      _     _  _        _                        
+	|  __/ _ \| |/ / _ \ ___ \/ _` | __| __| |/ _ \        | _ \(_) __ | |__ | || | _  _ (_) ___ _ __   __ _  _ _  
+	| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/        |   /| |/ _|| / / | __ || || || |(_-<| '  \ / _` || ' \ 
+	\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|        |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
 	";
 	
 	public void Settings()
@@ -25,9 +25,6 @@ ______     _       ______       _   _   _
 		Console.Title = "Pokemon Battle"; //title van de console
 		Console.CursorVisible = true; //toont de cursor
 		Console.BackgroundColor = ConsoleColor.Black; //background color van de console
-
-		//UNUSED
-		//Console.Beep(); //speelt een beepje af
 	}
 
 	public ConsoleColor getColorByEnergyType(string EnergyType)
@@ -80,14 +77,16 @@ ______     _       ______       _   _   _
 		Pokemon ChosenPokemon;
 		if (WhichPokemon == "Friendly") 
 		{
+			Console.WriteLine("");
 			Console.WriteLine("Type het NUMMER van de Pokemon die je wil spelen...");
-		} 
+		}
 		else 
 		{
+			Console.WriteLine("");
 			Console.WriteLine("Type het NUMMER van de Pokemon waar je tegen wil spelen...");
 		}
 
-		string inputText = Console.ReadLine().ToString();
+		string inputText = Console.ReadLine();
 		if (inputText != "" && inputText != " ")
 		{
 			int inputNumber = Convert.ToInt32(inputText);
@@ -153,12 +152,13 @@ ______     _       ______       _   _   _
 				{
 					if (WhichPokemon == "Friendly")
 					{
-						PokemonChosen = ChosenPokemon;
+						PokemonFriendly = ChosenPokemon;
 						choosePokemon("Enemy");
 					} 
 					else 
 					{
 						PokemonEnemy = ChosenPokemon;
+						battlePokemon();
 					}
 				}
 				else if (inputChoice == ConsoleKey.N)
@@ -177,6 +177,42 @@ ______     _       ______       _   _   _
 		{
 			Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
 			choosePokemon(WhichPokemon);
+		}
+	}
+
+	public void battlePokemon()
+	{
+		Boolean friendlyTurn = true;
+		int Round = 1;
+		int attackCounter = 0;
+
+		Console.Clear();
+		Console.ForegroundColor = ConsoleColor.Magenta;
+		Console.WriteLine(Logo);
+		Console.ResetColor();
+
+		Console.BackgroundColor = ConsoleColor.Green;
+		Console.ForegroundColor = ConsoleColor.Black;
+		Console.Write(PokemonFriendly.Name);
+		Console.ResetColor();
+
+		Console.Write(" vs ");
+		Console.BackgroundColor = ConsoleColor.Red;
+		Console.ForegroundColor = ConsoleColor.Black;
+		Console.Write(PokemonEnemy.Name);
+		Console.ResetColor();
+		
+		if (friendlyTurn)
+		{
+			Console.WriteLine(PokemonFriendly.Name + " is aan de beurt...");
+			Console.Write("Attacks: ");
+			foreach (KeyValuePair<string, int> attack in PokemonFriendly.Attacks)
+			{
+				attackCounter++;
+				Console.Write(" " + attackCounter + ": " + attack.Key + " => " + attack.Value);
+				Thread.Sleep(50);
+			}
+			Console.ReadKey();
 		}
 	}
 
