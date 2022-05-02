@@ -28,7 +28,22 @@ namespace Pokemons
 			{"Fairy", ConsoleColor.DarkGray}
 		};
 		
+		public static List<Pokemon> GetPopulation()
+		{
+			return Population;
+		}
 
+		public static Pokemon getPokemonByName(string name)
+		{
+			foreach (var pokemon in Population)
+			{
+				if (pokemon.Name == name)
+				{
+					return pokemon;
+				}
+			}
+			return null;
+		}
 	}
 	class Pokemon : Pokemons
 	{

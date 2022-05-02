@@ -9,6 +9,10 @@ class Program
 	public static Boolean loadSecondGenPokemons = true;
 	public static Boolean loadThirdGenPokemons = false;
 
+	public static IDictionary<int, Pokemon> NumberedPokemons = new Dictionary<int, Pokemon>();
+	public static Pokemon PokemonChosen;
+	public static Pokemon PokemonEnemy;
+
 	public static string Logo = @" 
 ______     _       ______       _   _   _      
 | ___ \   | |      | ___ \     | | | | | |     
@@ -37,24 +41,9 @@ ______     _       ______       _   _   _
 		return CorrectColor;
 	}
 
-	public void getInfo()
-	{
-
-	}
-
-	public void searchPokemon()
-	{
-		Console.WriteLine("Zoek je pokemon op...");
-		Console.ReadLine();
-	}
-
-	public void choosePokemon()
-	{
-
-	}
-
 	public void loadPokemon(int generation)
 	{
+		Program Game = new Program();
 		var Group = Pokemons.Pokemons.Population;
 		switch (generation)
 		{
@@ -71,10 +60,13 @@ ______     _       ______       _   _   _
 				Group = Pokemons.Pokemons.PopulationThirdGen;
 				break;
 		}
-		Program Game = new Program();
+		
+		int numberCount = 0;
 		foreach (var pokemon in Group)
 		{
-			Console.Write(pokemon.Name + ": ");
+			numberCount++;
+			NumberedPokemons.Add(numberCount, pokemon);
+			Console.Write(numberCount + " " + pokemon.Name + ": ");
 			Console.BackgroundColor = Game.getColorByEnergyType(pokemon.EnergyType);
 			Console.ForegroundColor = ConsoleColor.Black;
 			Console.Write(pokemon.EnergyType);
@@ -83,7 +75,33 @@ ______     _       ______       _   _   _
 			
 			Thread.Sleep(50); // laat het ff wachten, geeft een cool laad effect
 		}
-		Console.WriteLine("Klaar! Druk op ENTER om verder te gaan...");
+	}
+
+	public void choosePokemon()
+	{
+		Console.WriteLine("Type het NUMMER van de Pokemon die je wil spelen...");
+		string inputText = Console.ReadLine().ToString();
+		if (inputText != "" && inputText != " ")
+		{
+			int inputNumber = Convert.ToInt32(inputText);
+
+			if (NumberedPokemons.ContainsKey(inputNumber))
+			{
+				PokemonChosen = NumberedPokemons[inputNumber];
+				Console.Write("gekozen pokemon: " + PokemonChosen.Name);
+				Console.ReadKey();
+			}
+			else 
+			{
+				Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
+				choosePokemon();
+			}
+		}
+		else 
+		{
+			Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
+			choosePokemon();
+		}
 	}
 
 	public static void Main()
@@ -98,7 +116,13 @@ ______     _       ______       _   _   _
 		if (Button == ConsoleKey.Enter)
 		{
 			Game.loadPokemon(0);
-			Console.ReadKey();
+			Console.WriteLine("Klaar! Druk op ENTER om verder te gaan...");
+			
+			Button = Console.ReadKey().Key;
+			if (Button == ConsoleKey.Enter)
+			{
+				Game.choosePokemon();
+			}
 		}
 	}
 }
