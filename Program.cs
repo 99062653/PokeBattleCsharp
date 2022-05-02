@@ -2,13 +2,15 @@
 
 class Program 
 {
-
-	// de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
+	public static Boolean loadFirstGenPokemons = true;
+	public static Boolean loadSecondGenPokemons = true;
+	public static Boolean loadThirdGenPokemons = true;
 
 	public static IDictionary<int, Pokemon> NumberedPokemons = new Dictionary<int, Pokemon>();
 	public static Pokemon PokemonChosen;
 	public static Pokemon PokemonEnemy;
 
+// de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
 	public static string Logo = @" 
 ______     _       ______       _   _   _      
 | ___ \   | |      | ___ \     | | | | | |     
