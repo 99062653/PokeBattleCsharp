@@ -6,7 +6,7 @@ class Program
 	// de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
 
 	public static Boolean loadFirstGenPokemons = true;
-	public static Boolean loadSecondGenPokemons = false;
+	public static Boolean loadSecondGenPokemons = true;
 	public static Boolean loadThirdGenPokemons = false;
 
 	public static string Logo = @" 
@@ -53,14 +53,26 @@ ______     _       ______       _   _   _
 
 	}
 
-	public static void Main()
+	public void loadPokemon(int generation)
 	{
+		var Group = Pokemons.Pokemons.Population;
+		switch (generation)
+		{
+			case 0:
+				Group = Pokemons.Pokemons.Population;
+				break;
+			case 1:
+				Group = Pokemons.Pokemons.PopulationFirstGen;
+				break;
+			case 2:
+				Group = Pokemons.Pokemons.PopulationSecondGen;
+				break;
+			case 3:
+				Group = Pokemons.Pokemons.PopulationThirdGen;
+				break;
+		}
 		Program Game = new Program();
-		Game.Settings();
-		Console.WriteLine(Logo);
-		Init.InitializePokemons();
-
-		foreach (var pokemon in Pokemon.Population)
+		foreach (var pokemon in Group)
 		{
 			Console.Write(pokemon.Name + ": ");
 			Console.BackgroundColor = Game.getColorByEnergyType(pokemon.EnergyType);
@@ -69,11 +81,24 @@ ______     _       ______       _   _   _
 			Console.ResetColor();
 			Console.Write(" => " + pokemon.HitPoints + "/" + pokemon.Health + "\r\n");
 			
-			//Console.WriteLine(pokemon.Name + ": " + pokemon.EnergyType + " => " + pokemon.HitPoints + "/" + pokemon.Health);
 			Thread.Sleep(50); // laat het ff wachten, geeft een cool laad effect
 		}
 		Console.WriteLine("Klaar! Druk op ENTER om verder te gaan...");
-		ConsoleKey Button = Console.ReadKey().Key; //.Key is de knop die gedrukt is
+	}
 
+	public static void Main()
+	{
+		Program Game = new Program();
+		Game.Settings();
+		Console.WriteLine(Logo);
+		Init.InitializePokemons();
+
+		Console.WriteLine("Druk op ENTER om te starten...");
+		ConsoleKey Button = Console.ReadKey().Key; //.Key is de knop die gedrukt is
+		if (Button == ConsoleKey.Enter)
+		{
+			Game.loadPokemon(0);
+			Console.ReadKey();
+		}
 	}
 }
