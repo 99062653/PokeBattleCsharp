@@ -5,10 +5,6 @@ class Program
 
 	// de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
 
-	public static Boolean loadFirstGenPokemons = true;
-	public static Boolean loadSecondGenPokemons = true;
-	public static Boolean loadThirdGenPokemons = false;
-
 	public static IDictionary<int, Pokemon> NumberedPokemons = new Dictionary<int, Pokemon>();
 	public static Pokemon PokemonChosen;
 	public static Pokemon PokemonEnemy;
@@ -16,10 +12,10 @@ class Program
 	public static string Logo = @" 
 ______     _       ______       _   _   _      
 | ___ \   | |      | ___ \     | | | | | |     
-| |_/ /__ | | _____| |_/ / __ _| |_| |_| | ___ 
-|  __/ _ \| |/ / _ \ ___ \/ _` | __| __| |/ _ \
-| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/
-\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|
+| |_/ /__ | | _____| |_/ / __ _| |_| |_| | ___          ___  _      _     _  _        _                        
+|  __/ _ \| |/ / _ \ ___ \/ _` | __| __| |/ _ \        | _ \(_) __ | |__ | || | _  _ (_) ___ _ __   __ _  _ _  
+| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/        |   /| |/ _|| / / | __ || || || |(_-<| '  \ / _` || ' \ 
+\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|        |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
 	";
 	
 	public void Settings()
@@ -77,9 +73,18 @@ ______     _       ______       _   _   _
 		}
 	}
 
-	public void choosePokemon()
+	public void choosePokemon(string WhichPokemon)
 	{
-		Console.WriteLine("Type het NUMMER van de Pokemon die je wil spelen...");
+		Pokemon ChosenPokemon;
+		if (WhichPokemon == "Friendly") 
+		{
+			Console.WriteLine("Type het NUMMER van de Pokemon die je wil spelen...");
+		} 
+		else 
+		{
+			Console.WriteLine("Type het NUMMER van de Pokemon waar je tegen wil spelen...");
+		}
+
 		string inputText = Console.ReadLine().ToString();
 		if (inputText != "" && inputText != " ")
 		{
@@ -87,20 +92,86 @@ ______     _       ______       _   _   _
 
 			if (NumberedPokemons.ContainsKey(inputNumber))
 			{
-				PokemonChosen = NumberedPokemons[inputNumber];
-				Console.Write("gekozen pokemon: " + PokemonChosen.Name);
-				Console.ReadKey();
+				ChosenPokemon = NumberedPokemons[inputNumber];
+				Console.WriteLine("Gekozen Pokemon: " + ChosenPokemon.Name);
+				
+				Console.Write("-EnergyType: ");
+				Console.BackgroundColor = getColorByEnergyType(ChosenPokemon.EnergyType);
+				Console.ForegroundColor = ConsoleColor.Black;
+				Console.Write(ChosenPokemon.EnergyType);
+				Console.ResetColor();
+
+				Console.WriteLine("");
+				Console.WriteLine("-HitPoints: " + ChosenPokemon.HitPoints);
+
+				Console.WriteLine("-Attacks: ");
+				int attackCount = 0;
+				foreach (KeyValuePair<string, int> attack in ChosenPokemon.Attacks)
+				{
+					attackCount++;
+					Console.WriteLine(" " + attackCount + ": " + attack.Key  + " => " + attack.Value);
+				}
+
+				Console.WriteLine("-Weakness: ");
+				int weaknessCount = 0;
+				foreach (KeyValuePair<string, int> weakness in ChosenPokemon.Weakness)
+				{
+					weaknessCount++;
+					Console.Write(" " + weaknessCount + ": ");
+					Console.BackgroundColor = getColorByEnergyType(weakness.Key);
+					Console.ForegroundColor = ConsoleColor.Black;
+					Console.Write(weakness.Key);
+					Console.ResetColor();
+					Console.Write(" => " + weakness.Value);
+					Console.WriteLine("");
+				}
+
+				Console.WriteLine("-Resistance: ");
+				int resistanceCount = 0;
+				foreach (KeyValuePair<string, int> resistance in ChosenPokemon.Resistance)
+				{
+					resistanceCount++;
+					Console.Write(" " + resistanceCount + ": ");
+					Console.BackgroundColor = getColorByEnergyType(resistance.Key);
+					Console.ForegroundColor = ConsoleColor.Black;
+					Console.Write(resistance.Key);
+					Console.ResetColor();
+					Console.Write(" => " + resistance.Value);
+					Console.WriteLine("");
+				}
+				Console.WriteLine("");
+
+				Console.WriteLine("Tevreden met deze keuze? Y/N");
+				ConsoleKey inputChoice = Console.ReadKey().Key;
+
+				if (inputChoice == ConsoleKey.Y)
+				{
+					if (WhichPokemon == "Friendly")
+					{
+						PokemonChosen = ChosenPokemon;
+						choosePokemon("Enemy");
+					} 
+					else 
+					{
+						PokemonEnemy = ChosenPokemon;
+					}
+				}
+				else if (inputChoice == ConsoleKey.N)
+				{
+					Console.WriteLine(" Okay, kies opnieuw...");
+					choosePokemon(WhichPokemon);
+				}
 			}
 			else 
 			{
 				Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
-				choosePokemon();
+				choosePokemon(WhichPokemon);
 			}
 		}
 		else 
 		{
 			Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
-			choosePokemon();
+			choosePokemon(WhichPokemon);
 		}
 	}
 
@@ -108,7 +179,11 @@ ______     _       ______       _   _   _
 	{
 		Program Game = new Program();
 		Game.Settings();
+
+		Console.ForegroundColor = ConsoleColor.Magenta;
 		Console.WriteLine(Logo);
+		Console.ResetColor();
+
 		Init.InitializePokemons();
 
 		Console.WriteLine("Druk op ENTER om te starten...");
@@ -116,12 +191,16 @@ ______     _       ______       _   _   _
 		if (Button == ConsoleKey.Enter)
 		{
 			Game.loadPokemon(0);
-			Console.WriteLine("Klaar! Druk op ENTER om verder te gaan...");
+			Console.WriteLine("Klaar! Druk op een toets om verder te gaan...");
 			
 			Button = Console.ReadKey().Key;
 			if (Button == ConsoleKey.Enter)
 			{
-				Game.choosePokemon();
+				Game.choosePokemon("Friendly");
+			} 
+			else 
+			{
+				Game.choosePokemon("Friendly");
 			}
 		}
 	}
