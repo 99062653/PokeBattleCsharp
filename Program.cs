@@ -1,6 +1,6 @@
 ﻿using Pokemons;
 
-class Program 
+class Program
 {
 	public static Boolean loadFirstGenPokemons = true;
 	public static Boolean loadSecondGenPokemons = true;
@@ -10,7 +10,7 @@ class Program
 	public static Pokemon PokemonFriendly;
 	public static Pokemon PokemonEnemy;
 
-// de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
+	// de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
 	public static string Logo = @" 
 	______     _       ______       _   _   _      
 	| ___ \   | |      | ___ \     | | | | | |     
@@ -19,7 +19,7 @@ class Program
 	| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/        |   /| |/ _|| / / | __ || || || |(_-<| '  \ / _` || ' \ 
 	\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|        |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
 	";
-	
+
 	public void Settings()
 	{
 		Console.Title = "Pokemon Battle"; //title van de console
@@ -55,7 +55,7 @@ class Program
 				Group = Pokemons.Pokemons.PopulationThirdGen;
 				break;
 		}
-		
+
 		int numberCount = 0;
 		foreach (var pokemon in Group)
 		{
@@ -67,7 +67,7 @@ class Program
 			Console.Write(pokemon.EnergyType);
 			Console.ResetColor();
 			Console.Write(" => " + pokemon.HitPoints + "/" + pokemon.Health + "\r\n");
-			
+
 			Thread.Sleep(50); // laat het ff wachten, geeft een cool laad effect
 		}
 	}
@@ -75,27 +75,26 @@ class Program
 	public void choosePokemon(string WhichPokemon)
 	{
 		Pokemon ChosenPokemon;
-		if (WhichPokemon == "Friendly") 
+		if (WhichPokemon == "Friendly")
 		{
 			Console.WriteLine("");
 			Console.WriteLine("Type het NUMMER van de Pokemon die je wil spelen...");
 		}
-		else 
+		else
 		{
 			Console.WriteLine("");
 			Console.WriteLine("Type het NUMMER van de Pokemon waar je tegen wil spelen...");
 		}
 
-		string inputText = Console.ReadLine();
+		string inputText = Console.ReadLine().ToString();
 		if (inputText != "" && inputText != " ")
 		{
 			int inputNumber = Convert.ToInt32(inputText);
-
 			if (NumberedPokemons.ContainsKey(inputNumber))
 			{
 				ChosenPokemon = NumberedPokemons[inputNumber];
 				Console.WriteLine("Gekozen Pokemon: " + ChosenPokemon.Name);
-				
+
 				Console.Write("-EnergyType: ");
 				Console.BackgroundColor = getColorByEnergyType(ChosenPokemon.EnergyType);
 				Console.ForegroundColor = ConsoleColor.Black;
@@ -110,7 +109,7 @@ class Program
 				foreach (KeyValuePair<string, int> attack in ChosenPokemon.Attacks)
 				{
 					attackCount++;
-					Console.WriteLine(" " + attackCount + ": " + attack.Key  + " => " + attack.Value);
+					Console.WriteLine(" " + attackCount + ": " + attack.Key + " => " + attack.Value);
 					Thread.Sleep(50);
 				}
 
@@ -154,8 +153,8 @@ class Program
 					{
 						PokemonFriendly = ChosenPokemon;
 						choosePokemon("Enemy");
-					} 
-					else 
+					}
+					else
 					{
 						PokemonEnemy = ChosenPokemon;
 						battlePokemon();
@@ -167,13 +166,13 @@ class Program
 					choosePokemon(WhichPokemon);
 				}
 			}
-			else 
+			else
 			{
 				Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
 				choosePokemon(WhichPokemon);
 			}
 		}
-		else 
+		else
 		{
 			Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
 			choosePokemon(WhichPokemon);
@@ -182,9 +181,8 @@ class Program
 
 	public void battlePokemon()
 	{
-		Boolean friendlyTurn = true;
-		int Round = 1;
-		int attackCounter = 0;
+		List<int> friendlyAttacks = new List<int>();
+		List<int> enemyAttacks = new List<int>();
 
 		Console.Clear();
 		Console.ForegroundColor = ConsoleColor.Magenta;
@@ -197,22 +195,23 @@ class Program
 		Console.ResetColor();
 
 		Console.Write(" vs ");
+
 		Console.BackgroundColor = ConsoleColor.Red;
 		Console.ForegroundColor = ConsoleColor.Black;
 		Console.Write(PokemonEnemy.Name);
 		Console.ResetColor();
-		
-		if (friendlyTurn)
+		Console.WriteLine("");
+
+		Console.ReadKey();
+
+		foreach (int attackdamage in friendlyAttacks)
 		{
-			Console.WriteLine(PokemonFriendly.Name + " is aan de beurt...");
-			Console.Write("Attacks: ");
-			foreach (KeyValuePair<string, int> attack in PokemonFriendly.Attacks)
-			{
-				attackCounter++;
-				Console.Write(" " + attackCounter + ": " + attack.Key + " => " + attack.Value);
-				Thread.Sleep(50);
-			}
-			Console.ReadKey();
+			PokemonFriendly.attackPokemon(PokemonEnemy, attackdamage);
+		}
+
+		foreach (int attackdamage in enemyAttacks)
+		{
+			PokemonEnemy.attackPokemon(PokemonFriendly, attackdamage);
 		}
 	}
 
@@ -233,13 +232,13 @@ class Program
 		{
 			Game.loadPokemon(0);
 			Console.WriteLine("Klaar! Druk op een toets om verder te gaan...");
-			
+
 			Button = Console.ReadKey().Key;
 			if (Button == ConsoleKey.Enter)
 			{
 				Game.choosePokemon("Friendly");
-			} 
-			else 
+			}
+			else
 			{
 				Game.choosePokemon("Friendly");
 			}
