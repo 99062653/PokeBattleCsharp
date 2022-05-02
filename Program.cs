@@ -4,6 +4,11 @@ class Program
 {
 
 	// de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
+
+	public static Boolean loadFirstGenPokemons = true;
+	public static Boolean loadSecondGenPokemons = false;
+	public static Boolean loadThirdGenPokemons = false;
+
 	public static string Logo = @" 
 ______     _       ______       _   _   _      
 | ___ \   | |      | ___ \     | | | | | |     
@@ -23,9 +28,24 @@ ______     _       ______       _   _   _
 		//Console.Beep(); //speelt een beepje af
 	}
 
+	public ConsoleColor getColorByEnergyType(string EnergyType)
+	{
+		ConsoleColor CorrectColor;
+
+		Pokemons.Pokemons.EnergytypeAndColors.TryGetValue(EnergyType, out CorrectColor);
+
+		return CorrectColor;
+	}
+
 	public void getInfo()
 	{
 
+	}
+
+	public void searchPokemon()
+	{
+		Console.WriteLine("Zoek je pokemon op...");
+		Console.ReadLine();
 	}
 
 	public void choosePokemon()
@@ -35,22 +55,25 @@ ______     _       ______       _   _   _
 
 	public static void Main()
 	{
-		Program program = new Program();
-		program.Settings();
+		Program Game = new Program();
+		Game.Settings();
 		Console.WriteLine(Logo);
 		Init.InitializePokemons();
 
 		foreach (var pokemon in Pokemon.Population)
 		{
-			Console.WriteLine(pokemon.Name);
-			Thread.Sleep(50); // laat het ff wachten
+			Console.Write(pokemon.Name + ": ");
+			Console.BackgroundColor = Game.getColorByEnergyType(pokemon.EnergyType);
+			Console.ForegroundColor = ConsoleColor.Black;
+			Console.Write(pokemon.EnergyType);
+			Console.ResetColor();
+			Console.Write(" => " + pokemon.HitPoints + "/" + pokemon.Health + "\r\n");
+			
+			//Console.WriteLine(pokemon.Name + ": " + pokemon.EnergyType + " => " + pokemon.HitPoints + "/" + pokemon.Health);
+			Thread.Sleep(50); // laat het ff wachten, geeft een cool laad effect
 		}
-		Console.WriteLine("Klaar! Druk op ENTER om verder te gaan.");
+		Console.WriteLine("Klaar! Druk op ENTER om verder te gaan...");
 		ConsoleKey Button = Console.ReadKey().Key; //.Key is de knop die gedrukt is
 
-		if (Button == ConsoleKey.Enter) 
-		{
-
-		}
 	}
 }
