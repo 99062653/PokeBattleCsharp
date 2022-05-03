@@ -58,7 +58,7 @@ namespace PokemonsSpace
 		public IDictionary<string, int> Weakness = new Dictionary<string, int>();
 		public IDictionary<string, int> Resistance = new Dictionary<string, int>();
 
-		public Pokemon(string name, string energyType, int health, int hitPoints, IDictionary<string, int> attacks, IDictionary<string, int> weakness, IDictionary<string, int> resistance)
+		public Pokemon(string name, string energyType, int health, IDictionary<string, int> attacks, IDictionary<string, int> weakness, IDictionary<string, int> resistance)
 		{
 			this.Name = name;
 			this.EnergyType = energyType;
@@ -92,9 +92,7 @@ namespace PokemonsSpace
 		public static void InitializePokemons()
 		{
 			//Console.WriteLine("Initializing Pokemons...");
-			Pokemon Bulbasaur = new Pokemon("Bulbasaur", "Grass", 100, 100, new Dictionary<string, int> { { "Seed Bomb", 25 }, { "Sludge Bomb", 40 }, { "Power Whip", 45 }, { "Frustration Shadow", 15 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
-			Pokemon Ivysaur = new Pokemon("Ivysaur", "Grass", 100, 100, new Dictionary<string, int> { { "Vine Whip", 30 }, { "Power Whip", 45 }, { "Sludge Bomb", 40 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
-			Pokemon Venusaur = new Pokemon("Venusaur", "Grass", 100, 100, new Dictionary<string, int> { { "Petal Blizzard", 100 }, { "Solar Beam", 180 }, { "Sludge Bomb", 40 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
+			Pokemon Pikachu = new Pokemon("Pikachu", "Electric", 72, new Dictionary<string, int> { { "Electric Shock", 50 } }, new Dictionary<string, int> { { "Normal", 0 }, { "Electric", 0 }, { "Grass", 0 }, { "Ice", 0 }, { "Fighting", 0 }, { "Poison", 0 }, { "Ground", 0 }, { "Flying", 0 }, { "Psychic", 0 }, { "Bug", 0 }, { "Rock", 0 }, { "Ghost", 0 }, { "Dragon", 0 }, { "Dark", 0 }, { "Steel", 0 }, { "Fairy", 0 } }, new Dictionary<string, int> { { "Normal", 0 }, { "Electric", 0 }, { "Grass", 0 }, { "Ice", 0 }, { "Fighting", 0 }, { "Poison", 0 }, { "Ground", 0 }, { "Flying", 0 }, { "Psychic", 0 }, { "Bug", 0 }, { "Rock", 0 }, { "Ghost", 0 }, { "Dragon", 0 }, { "Dark", 0 }, { "Steel", 0 }, { "Fairy", 0 } });
 
 			Pokemons.Population = Pokemons.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer OPNIEUW gebruikt wordt
 		}
