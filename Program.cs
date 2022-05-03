@@ -68,13 +68,11 @@ class Program
 		Pokemon ChosenPokemon;
 		if (WhichPokemon == "Friendly")
 		{
-			Console.WriteLine("");
-			Console.WriteLine("Type het NUMMER van de Pokemon die je wil spelen...");
+			Console.WriteLine("\nType het NUMMER van de Pokemon die je wil spelen...");
 		}
 		else if (WhichPokemon == "Enemy")
 		{
-			Console.WriteLine("");
-			Console.WriteLine("Type het NUMMER van de Pokemon waar je tegen wil spelen...");
+			Console.WriteLine("\nType het NUMMER van de Pokemon waar je tegen wil spelen...");
 		}
 
 		string inputText = Console.ReadLine().ToString();
@@ -130,9 +128,8 @@ class Program
 					Console.WriteLine("");
 					Thread.Sleep(50);
 				}
-				Console.WriteLine("");
 
-				Console.WriteLine("Tevreden met deze keuze? Y/N");
+				Console.WriteLine("\nTevreden met deze keuze? Y/N");
 				ConsoleKey inputChoice = Console.ReadKey().Key;
 
 				if (inputChoice == ConsoleKey.Y)
@@ -152,22 +149,19 @@ class Program
 						}
 						else
 						{
-							Console.WriteLine("");
-							Console.WriteLine("Je mag niet 2 keer dezelfde pokemon kiezen!");
+							Console.WriteLine("\nJe mag niet 2 keer dezelfde pokemon kiezen!");
 							choosePokemon(WhichPokemon);
 						}
 					}
 				}
 				else if (inputChoice == ConsoleKey.N)
 				{
-					Console.WriteLine("");
-					Console.WriteLine("Okay, kies opnieuw...");
+					Console.WriteLine("\nOkay, kies opnieuw...");
 					choosePokemon(WhichPokemon);
 				}
 				else
 				{
-					Console.WriteLine("");
-					Console.WriteLine("Rare input! kies opnieuw...");
+					Console.WriteLine("\nRare input! kies opnieuw...");
 					choosePokemon(WhichPokemon);
 				}
 			}
@@ -189,7 +183,7 @@ class Program
 		IDictionary<int, int> FriendlyNumberedAttacks = new Dictionary<int, int>();
 		IDictionary<int, int> EnemyNumberedAttacks = new Dictionary<int, int>();
 		Boolean yourTurn = true;
-		int attacksCount = 0;
+		int attacksCount = 1; // 1 omdat hij anders bij 0 begint
 
 		displayLogo();
 
@@ -243,13 +237,13 @@ class Program
 
 		void chooseAttack()
 		{
-			Console.WriteLine("Jij bent aan de beurt!");
+			Console.WriteLine("\nJij bent aan de beurt!");
 			Console.Write("Attacks: ");
 			foreach (KeyValuePair<string, int> attack in PokemonFriendly.Attacks)
 			{
 				FriendlyNumberedAttacks.Add(attacksCount, attack.Value);
 				attacksCount++;
-				Console.Write(attacksCount + ": " + attack.Key + " => " + attack.Value + " ");
+				Console.Write((attacksCount - 1) + ": " + attack.Key + " => " + attack.Value + " ");
 			}
 			Console.WriteLine("Kies je Attack...");
 			string inputText = Console.ReadLine().ToString();
@@ -273,7 +267,7 @@ class Program
 			}
 		}
 		displayPokemons();
-		while (PokemonFriendly.HitPoints >= 0 && PokemonEnemy.HitPoints >= 0)
+		while (PokemonFriendly.HitPoints != 0 && PokemonEnemy.HitPoints != 0)
 		{
 			if (yourTurn)
 			{
@@ -298,7 +292,17 @@ class Program
 				EnemyNumberedAttacks.Clear();
 			}
 		}
+
+		if (PokemonFriendly.HitPoints == 0)
+		{
+			Console.WriteLine("\nJe hebt verloren!");
+		}
+		else if (PokemonEnemy.HitPoints == 0)
+		{
+			Console.WriteLine("\nJe hebt gewonnen!");
+		}
 		Console.ReadKey();
+		Main();
 	}
 
 	public void startGame()

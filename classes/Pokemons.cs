@@ -86,7 +86,7 @@ namespace PokemonsSpace
 			//Console.WriteLine("Initializing Pokemons...");
 			Pokemon Bulbasaur = new Pokemon("Bulbasaur", "Grass", 100, 100, new Dictionary<string, int> { { "Seed Bomb", 25 }, { "Sludge Bomb", 40 }, { "Power Whip", 45 }, { "Frustration Shadow", 15 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
 			Pokemon Ivysaur = new Pokemon("Ivysaur", "Grass", 100, 100, new Dictionary<string, int> { { "Vine Whip", 30 }, { "Power Whip", 45 }, { "Sludge Bomb", 40 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
-			Pokemon Venusaur = new Pokemon("Venusaur", "Grass", 100, 100, new Dictionary<string, int> { { "Vine Whip", 30 }, { "Power Whip", 45 }, { "Sludge Bomb", 40 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
+			Pokemon Venusaur = new Pokemon("Venusaur", "Grass", 100, 100, new Dictionary<string, int> { { "Petal Blizzard", 100 }, { "Solar Beam", 180 }, { "Sludge Bomb", 40 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
 
 			Pokemon.Population = Pokemon.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer OPNIEUW gebruikt wordt
 		}
