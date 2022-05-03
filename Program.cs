@@ -206,6 +206,7 @@ class Program
 
 		void displayAttack(Pokemon attacker, Pokemon reciever, int damage)
 		{
+			Thread.Sleep(50); // laad effect
 			Console.WriteLine("");
 			if (attacker == PokemonFriendly)
 			{
@@ -235,6 +236,14 @@ class Program
 			}
 		}
 
+		void clearAttacks()
+		{
+			FriendlyNumberedAttacks.Clear();
+			EnemyNumberedAttacks.Clear();
+
+			attacksCount = 1;
+		}
+
 		void chooseAttack()
 		{
 			Console.WriteLine("\nJij bent aan de beurt!");
@@ -243,6 +252,7 @@ class Program
 			{
 				FriendlyNumberedAttacks.Add(attacksCount, attack.Value);
 				attacksCount++;
+				Thread.Sleep(50); // laad effect
 				Console.Write((attacksCount - 1) + ": " + attack.Key + " => " + attack.Value + " ");
 			}
 			Console.WriteLine("Kies je Attack...");
@@ -255,14 +265,20 @@ class Program
 					PokemonFriendly.attackPokemon(PokemonEnemy, FriendlyNumberedAttacks[inputNumber]);
 					displayAttack(PokemonFriendly, PokemonEnemy, FriendlyNumberedAttacks[inputNumber]);
 					displayPokemons();
-					attacksCount = 1;
-					FriendlyNumberedAttacks.Clear();
+					clearAttacks();
 					yourTurn = false;
+				}
+				else 
+				{
+					Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
+					clearAttacks();
+					chooseAttack();
 				}
 			}
 			else
 			{
 				Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
+				clearAttacks();
 				chooseAttack();
 			}
 		}
@@ -288,8 +304,7 @@ class Program
 				displayAttack(PokemonEnemy, PokemonFriendly, EnemyNumberedAttacks[randomInt]);
 				displayPokemons();
 				yourTurn = true;
-				attacksCount = 1;
-				EnemyNumberedAttacks.Clear();
+				clearAttacks();
 			}
 		}
 

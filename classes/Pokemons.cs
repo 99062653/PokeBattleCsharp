@@ -82,7 +82,18 @@ namespace PokemonsSpace
 
 		public void attackPokemon(Pokemon reciever, int attackdamage) // val andere pokemons aan NOG NODIG: WEAKNESS EN RESISTANCE!!!
 		{
-			reciever.HitPoints = reciever.HitPoints - attackdamage;
+			if (reciever.Weakness.ContainsKey(this.EnergyType))
+			{
+				attackdamage = attackdamage * reciever.Weakness[this.EnergyType];
+			}
+			else if (reciever.Resistance.ContainsKey(this.EnergyType))
+			{
+				attackdamage = attackdamage / reciever.Weakness[this.EnergyType];
+			} 
+			else
+			{
+				reciever.HitPoints = reciever.HitPoints - attackdamage;
+			}
 			checkHp(reciever);
 		}
 	}
@@ -92,7 +103,8 @@ namespace PokemonsSpace
 		public static void InitializePokemons()
 		{
 			//Console.WriteLine("Initializing Pokemons...");
-			Pokemon Pikachu = new Pokemon("Pikachu", "Electric", 72, new Dictionary<string, int> { { "Electric Shock", 50 } }, new Dictionary<string, int> { { "Normal", 0 }, { "Electric", 0 }, { "Grass", 0 }, { "Ice", 0 }, { "Fighting", 0 }, { "Poison", 0 }, { "Ground", 0 }, { "Flying", 0 }, { "Psychic", 0 }, { "Bug", 0 }, { "Rock", 0 }, { "Ghost", 0 }, { "Dragon", 0 }, { "Dark", 0 }, { "Steel", 0 }, { "Fairy", 0 } }, new Dictionary<string, int> { { "Normal", 0 }, { "Electric", 0 }, { "Grass", 0 }, { "Ice", 0 }, { "Fighting", 0 }, { "Poison", 0 }, { "Ground", 0 }, { "Flying", 0 }, { "Psychic", 0 }, { "Bug", 0 }, { "Rock", 0 }, { "Ghost", 0 }, { "Dragon", 0 }, { "Dark", 0 }, { "Steel", 0 }, { "Fairy", 0 } });
+			Pokemon Pikachu = new Pokemon("Pikachu", "Electric", 72, new Dictionary<string, int> { { "Electric Shock", 50 }, { "Quick Attack", 25 } }, new Dictionary<string, int> { { "Water", 2 } }, new Dictionary<string, int> {{ "Electric", 2 }});
+			Pokemon Bulbasaur = new Pokemon("Bulbasaur", "Grass", 72, new Dictionary<string, int> { { "Vine Whip", 50 }, { "Tackle", 25 } }, new Dictionary<string, int> { { "Fire", 2 } }, new Dictionary<string, int> {{ "Grass", 2 }});
 
 			Pokemons.Population = Pokemons.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer OPNIEUW gebruikt wordt
 		}
