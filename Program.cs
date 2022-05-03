@@ -1,10 +1,11 @@
 ﻿using PokemonsSpace;
+using AttacksSpace;
 
 class Program
 {
 	public static IDictionary<int, Pokemon> NumberedPokemons = new Dictionary<int, Pokemon>();
-	public static Pokemon PokemonFriendly;
-	public static Pokemon PokemonEnemy;
+	public static Pokemon PokemonFriendly; 
+	public static Pokemon PokemonEnemy; 
 	public static string Logo = @" 
 	______     _       ______       _   _   _      
 	| ___ \   | |      | ___ \     | | | | | |     
@@ -75,8 +76,8 @@ class Program
 			Console.WriteLine("\nType het NUMMER van de Pokemon waar je tegen wil spelen...");
 		}
 
-		string inputText = Console.ReadLine().ToString();
-		if (inputText != "" && inputText != " " && inputText.All(char.IsDigit)) //niet leeg, en alle characters moeten een nummer zijn
+		string inputText = Console.ReadLine();
+		if (inputText != null && inputText != "" && inputText != " " && inputText.All(char.IsDigit)) //niet leeg, en alle characters moeten een nummer zijn
 		{
 			int inputNumber = Convert.ToInt32(inputText);
 			if (NumberedPokemons.ContainsKey(inputNumber))
@@ -265,8 +266,8 @@ class Program
 				Console.Write((attacksCount - 1) + ": " + attack.Key + " => " + attack.Value + " ");
 			}
 			Console.WriteLine("Kies je Attack...");
-			string inputText = Console.ReadLine().ToString();
-			if (inputText != "" && inputText != " " && inputText.All(char.IsDigit)) //niet leeg, en alle characters moeten een nummer zijn
+			string inputText = Console.ReadLine();
+			if (inputText != null && inputText != "" && inputText != " " && inputText.All(char.IsDigit)) //niet leeg, en alle characters moeten een nummer zijn
 			{
 				int inputNumber = Convert.ToInt32(inputText);
 				if (FriendlyNumberedAttacks.ContainsKey(inputNumber))

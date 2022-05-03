@@ -1,3 +1,10 @@
-// In de toekomst (MISSCHIEN)
-
-//met cooldowns. mana gebruik; allemaal dat gezeik
+namespace AttacksSpace
+{
+	public class Attack
+	{
+		public string Name = "";
+		public int Damage;
+		public int EnergyCost;
+		
+	}
+}
