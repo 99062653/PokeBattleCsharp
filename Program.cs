@@ -14,6 +14,14 @@ class Program
 	\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|      |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
 	";
 
+	public static void displayLogo()
+	{
+		Console.Clear();
+		Console.ForegroundColor = ConsoleColor.Magenta;
+		Console.WriteLine(Logo);
+		Console.ResetColor();
+	}
+
 	public void Settings()
 	{
 		Console.Title = "Pokemon Battle"; //title van de console
@@ -137,7 +145,17 @@ class Program
 					else
 					{
 						PokemonEnemy = ChosenPokemon;
-						battlePokemon();
+
+						if (PokemonFriendly != PokemonEnemy)
+						{
+							battlePokemon();
+						} 
+						else
+						{
+							Console.WriteLine("");
+							Console.WriteLine("Je mag niet 2 keer dezelfde pokemon kiezen!");
+							choosePokemon(WhichPokemon);
+						}
 					}
 				}
 				else if (inputChoice == ConsoleKey.N)
@@ -168,40 +186,93 @@ class Program
 
 	public void battlePokemon()
 	{
-		IDictionary<int, Dictionary<string, int>> NumberedAttacks = new Dictionary<int, Dictionary<string, int>>();
+		IDictionary<int, int> NumberedAttacks = new Dictionary<int, int>();
 		IDictionary<string, int> FriendlyAttacks = new Dictionary<string, int>();
 		IDictionary<string, int> EnemyAttacks = new Dictionary<string, int>();
 		Boolean yourTurn = true;
 		int attacksCount = 0;
 
-		Console.Clear();
-		Console.ForegroundColor = ConsoleColor.Magenta;
-		Console.WriteLine(Logo);
-		Console.ResetColor();
+		displayLogo();
 
-		Console.BackgroundColor = ConsoleColor.Green;
-		Console.ForegroundColor = ConsoleColor.Black;
-		Console.Write(PokemonFriendly.Name);
-		Console.ResetColor();
-		Console.Write(" => " + PokemonFriendly.HitPoints + "/" + PokemonFriendly.Health);
+		void displayPokemons()
+		{
+			Console.BackgroundColor = ConsoleColor.Green;
+			Console.ForegroundColor = ConsoleColor.Black;
+			Console.Write(PokemonFriendly.Name);
+			Console.ResetColor();
+			Console.Write(" => " + PokemonFriendly.HitPoints + "/" + PokemonFriendly.Health);
 
-		Console.Write(" vs ");
+			Console.Write(" vs ");
 
-		Console.BackgroundColor = ConsoleColor.Red;
-		Console.ForegroundColor = ConsoleColor.Black;
-		Console.Write(PokemonEnemy.Name);
-		Console.ResetColor();
-		Console.Write(" => " + PokemonEnemy.HitPoints + "/" + PokemonEnemy.Health + "\n");
+			Console.BackgroundColor = ConsoleColor.Red;
+			Console.ForegroundColor = ConsoleColor.Black;
+			Console.Write(PokemonEnemy.Name);
+			Console.ResetColor();
+			Console.Write(" => " + PokemonEnemy.HitPoints + "/" + PokemonEnemy.Health + "\n");
+		}
 
-		if (yourTurn)
+		void displayAttack(Pokemon attacker, Pokemon reciever, int damage)
+		{
+			if (attacker == PokemonFriendly)
+			{
+				Console.BackgroundColor = ConsoleColor.Green;
+				Console.ForegroundColor = ConsoleColor.Black;
+				Console.Write(PokemonFriendly.Name);
+				Console.ResetColor();
+				Console.Write(" valt ");
+				Console.BackgroundColor = ConsoleColor.Red;
+				Console.ForegroundColor = ConsoleColor.Black;
+				Console.Write(PokemonEnemy.Name);
+				Console.ResetColor();
+				Console.Write(" aan en doet " + damage  + " HP \n");
+			} 
+			else 
+			{
+				Console.BackgroundColor = ConsoleColor.Red;
+				Console.ForegroundColor = ConsoleColor.Black;
+				Console.Write(PokemonEnemy.Name);
+				Console.ResetColor();
+				Console.Write(" valt ");
+				Console.BackgroundColor = ConsoleColor.Green;
+				Console.ForegroundColor = ConsoleColor.Black;
+				Console.Write(PokemonFriendly.Name);
+				Console.ResetColor();
+				Console.Write(" aan en doet " + damage  + " HP \n");
+			}
+		}
+
+		void chooseAttack()
 		{
 			Console.WriteLine("Jij bent aan de beurt!");
 			Console.Write("Attacks: ");
 			foreach (KeyValuePair<string, int> attack in PokemonFriendly.Attacks)
 			{
 				attacksCount++;
+				NumberedAttacks.Add(attacksCount, attack.Value);
 				Console.Write(attacksCount + ": " + attack.Key + " => " + attack.Value + " ");
 			}
+			Console.WriteLine("Kies je Attack...");
+			string inputText = Console.ReadLine().ToString();
+			if (inputText != "" && inputText != " " && inputText.All(char.IsDigit)) //niet leeg, en alle characters moeten een nummer zijn
+			{
+				int inputNumber = Convert.ToInt32(inputText);
+				if (NumberedAttacks.ContainsKey(inputNumber))
+				{
+					PokemonFriendly.attackPokemon(PokemonEnemy, NumberedAttacks[inputNumber]);
+					displayAttack(PokemonFriendly, PokemonEnemy, NumberedAttacks[inputNumber]);
+					displayPokemons();
+				}
+			}
+			else
+			{
+				Console.WriteLine("Dit is geen geldig nummer, probeer het opnieuw...");
+				chooseAttack();
+			}
+		}
+		displayPokemons();
+		if (yourTurn)
+		{
+			chooseAttack();
 		}
 		Console.ReadKey();
 	}
@@ -242,9 +313,7 @@ class Program
 
 	public static void Main()
 	{
-		Console.ForegroundColor = ConsoleColor.Magenta;
-		Console.WriteLine(Logo);
-		Console.ResetColor();
+		displayLogo();
 
 		Program actualGame = new Program();
 		actualGame.startGame();
