@@ -1,4 +1,5 @@
 ﻿using PokemonsSpace;
+using AttacksSpace;
 
 class Program
 {
