@@ -255,7 +255,7 @@ class Program
 					PokemonFriendly.attackPokemon(PokemonEnemy, FriendlyNumberedAttacks[inputNumber]);
 					displayAttack(PokemonFriendly, PokemonEnemy, FriendlyNumberedAttacks[inputNumber]);
 					displayPokemons();
-					attacksCount = 0;
+					attacksCount = 1;
 					FriendlyNumberedAttacks.Clear();
 					yourTurn = false;
 				}
@@ -288,7 +288,7 @@ class Program
 				displayAttack(PokemonEnemy, PokemonFriendly, EnemyNumberedAttacks[randomInt]);
 				displayPokemons();
 				yourTurn = true;
-				attacksCount = 0;
+				attacksCount = 1;
 				EnemyNumberedAttacks.Clear();
 			}
 		}
@@ -309,12 +309,16 @@ class Program
 	{
 		Program Game = new Program();
 		Game.Settings();
+		NumberedPokemons.Clear();
 
 		Console.WriteLine("Druk op ENTER om te starten en ESC om te stoppen...");
 		ConsoleKey Button = Console.ReadKey().Key; //.Key is de knop die gedrukt is
 		if (Button == ConsoleKey.Enter)
 		{
-			Init.InitializePokemons();
+			if (Pokemons.Population.Count == 0) // zodat de eerder doodgegaande pokemons niet TERUG komen
+			{
+				Init.InitializePokemons();
+			}
 			Game.loadPokemon();
 			Console.WriteLine("Klaar! Druk op een toets om verder te gaan...");
 

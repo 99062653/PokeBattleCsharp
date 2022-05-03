@@ -41,6 +41,12 @@ namespace PokemonsSpace
 			}
 			return null;
 		}
+
+		public static void removePokemonFromPopulation(Pokemon pokemon)
+		{
+			Population.Remove(pokemon);
+		}
+	
 	}
 	class Pokemon : Pokemons
 	{
@@ -65,17 +71,19 @@ namespace PokemonsSpace
 			Pokemon.Population.Add(this); // de HELE populatie
 		}
 
-		public void checkHP() // zorgt ervoor dat hitpoints niet onder 0 kunnen gaan
+		public void checkHp(Pokemon pokemon) // kijkt naar de HitPoints. en zet ze naar 0 als ze lager zijn dan 0
 		{
-			if (this.HitPoints < 0)
+			if (pokemon.HitPoints <= 0)
 			{
-				this.HitPoints = 0;
+				pokemon.HitPoints = 0;
+				Pokemons.removePokemonFromPopulation(pokemon); // rip je bent dood pik
 			}
 		}
-		public void attackPokemon(Pokemon enemypokemon, int attackdamage) // val andere pokemons aan NOG NODIG: WEAKNESS EN RESISTANCE!!!
+
+		public void attackPokemon(Pokemon reciever, int attackdamage) // val andere pokemons aan NOG NODIG: WEAKNESS EN RESISTANCE!!!
 		{
-			enemypokemon.HitPoints = enemypokemon.HitPoints - attackdamage;
-			enemypokemon.checkHP();
+			reciever.HitPoints = reciever.HitPoints - attackdamage;
+			checkHp(reciever);
 		}
 	}
 
@@ -88,7 +96,7 @@ namespace PokemonsSpace
 			Pokemon Ivysaur = new Pokemon("Ivysaur", "Grass", 100, 100, new Dictionary<string, int> { { "Vine Whip", 30 }, { "Power Whip", 45 }, { "Sludge Bomb", 40 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
 			Pokemon Venusaur = new Pokemon("Venusaur", "Grass", 100, 100, new Dictionary<string, int> { { "Petal Blizzard", 100 }, { "Solar Beam", 180 }, { "Sludge Bomb", 40 } }, new Dictionary<string, int> { { "Fire", 2 }, { "Grass", 0 } }, new Dictionary<string, int> { { "Fire", 0 }, { "Grass", 1 } });
 
-			Pokemon.Population = Pokemon.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer OPNIEUW gebruikt wordt
+			Pokemons.Population = Pokemons.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer OPNIEUW gebruikt wordt
 		}
 	}
 }
