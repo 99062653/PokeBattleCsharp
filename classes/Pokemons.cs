@@ -85,18 +85,7 @@ namespace PokemonsSpace
 		
 		public void attackPokemon(Pokemon enemypokemon, int attackdamage)
 		{
-			if (enemypokemon.Weakness.ContainsKey(this.EnergyType))
-			{
-				enemypokemon.HitPoints = enemypokemon.HitPoints - (attackdamage * enemypokemon.Weakness[this.EnergyType]);
-			} 
-			else if (enemypokemon.Resistance.ContainsKey(this.EnergyType))
-			{
-				enemypokemon.HitPoints = enemypokemon.HitPoints - (attackdamage * enemypokemon.Resistance[this.EnergyType]); // resistance werkt hetzelfde als weakness atm
-			}
-			else
-			{
-				enemypokemon.HitPoints = enemypokemon.HitPoints - attackdamage;
-			}
+			enemypokemon.HitPoints = enemypokemon.HitPoints - attackdamage;
 		}
 	}
 
@@ -372,7 +361,7 @@ namespace PokemonsSpace
 			{
 
 			}
-			Pokemon.Population = Pokemon.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer gebruikt wordt
+			Pokemon.Population = Pokemon.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer OPNIEUW gebruikt wordt
 		}
 	}
 }

@@ -5,19 +5,16 @@ class Program
 	public static Boolean loadFirstGenPokemons = true;
 	public static Boolean loadSecondGenPokemons = true;
 	public static Boolean loadThirdGenPokemons = true;
-
 	public static IDictionary<int, Pokemon> NumberedPokemons = new Dictionary<int, Pokemon>();
 	public static Pokemon PokemonFriendly;
 	public static Pokemon PokemonEnemy;
-
-	// de reden dat dit zo naar links is omdat anders de ascii raar gaat doen
 	public static string Logo = @" 
 	______     _       ______       _   _   _      
 	| ___ \   | |      | ___ \     | | | | | |     
-	| |_/ /__ | | _____| |_/ / __ _| |_| |_| | ___          ___  _      _     _  _        _                        
-	|  __/ _ \| |/ / _ \ ___ \/ _` | __| __| |/ _ \        | _ \(_) __ | |__ | || | _  _ (_) ___ _ __   __ _  _ _  
-	| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/        |   /| |/ _|| / / | __ || || || |(_-<| '  \ / _` || ' \ 
-	\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|        |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
+	| |_/ /__ | | _____| |_/ / __ _| |_| |_| | ___         ___  _      _     _  _        _                        
+	|  __/ _ \| |/ / _ \ ___ \/ _` | __| __| |/ _ \       | _ \(_) __ | |__ | || | _  _ (_) ___ _ __   __ _  _ _  
+	| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/       |   /| |/ _|| / / | __ || || || |(_-<| '  \ / _` || ' \ 
+	\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|       |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
 	";
 
 	public void Settings()
@@ -84,7 +81,7 @@ class Program
 			Console.WriteLine("");
 			Console.WriteLine("Type het NUMMER van de Pokemon die je wil spelen...");
 		}
-		else if(WhichPokemon == "Enemy")
+		else if (WhichPokemon == "Enemy")
 		{
 			Console.WriteLine("");
 			Console.WriteLine("Type het NUMMER van de Pokemon waar je tegen wil spelen...");
@@ -167,6 +164,12 @@ class Program
 					Console.WriteLine("Okay, kies opnieuw...");
 					choosePokemon(WhichPokemon);
 				}
+				else
+				{
+					Console.WriteLine("");
+					Console.WriteLine("Rare input! kies opnieuw...");
+					choosePokemon(WhichPokemon);
+				}
 			}
 			else
 			{
@@ -183,9 +186,8 @@ class Program
 
 	public void battlePokemon()
 	{
-		List<int> friendlyAttacks = new List<int>();
-		List<int> enemyAttacks = new List<int>();
-		//Boolean yourTurn = true;
+		IDictionary<string, int> FriendlyAttacks = new Dictionary<string, int>();
+		IDictionary<string, int> EnemyAttacks = new Dictionary<string, int>();
 
 		Console.Clear();
 		Console.ForegroundColor = ConsoleColor.Magenta;
