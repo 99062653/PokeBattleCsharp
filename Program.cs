@@ -149,7 +149,7 @@ class Program
 						if (PokemonFriendly != PokemonEnemy)
 						{
 							battlePokemon();
-						} 
+						}
 						else
 						{
 							Console.WriteLine("");
@@ -186,9 +186,8 @@ class Program
 
 	public void battlePokemon()
 	{
-		IDictionary<int, int> NumberedAttacks = new Dictionary<int, int>();
-		IDictionary<string, int> FriendlyAttacks = new Dictionary<string, int>();
-		IDictionary<string, int> EnemyAttacks = new Dictionary<string, int>();
+		IDictionary<int, int> FriendlyNumberedAttacks = new Dictionary<int, int>();
+		IDictionary<int, int> EnemyNumberedAttacks = new Dictionary<int, int>();
 		Boolean yourTurn = true;
 		int attacksCount = 0;
 
@@ -213,6 +212,7 @@ class Program
 
 		void displayAttack(Pokemon attacker, Pokemon reciever, int damage)
 		{
+			Console.WriteLine("");
 			if (attacker == PokemonFriendly)
 			{
 				Console.BackgroundColor = ConsoleColor.Green;
@@ -224,9 +224,9 @@ class Program
 				Console.ForegroundColor = ConsoleColor.Black;
 				Console.Write(PokemonEnemy.Name);
 				Console.ResetColor();
-				Console.Write(" aan en doet " + damage  + " HP \n");
-			} 
-			else 
+				Console.Write(" aan en doet " + damage + " DP \n");
+			}
+			else
 			{
 				Console.BackgroundColor = ConsoleColor.Red;
 				Console.ForegroundColor = ConsoleColor.Black;
@@ -237,7 +237,7 @@ class Program
 				Console.ForegroundColor = ConsoleColor.Black;
 				Console.Write(PokemonFriendly.Name);
 				Console.ResetColor();
-				Console.Write(" aan en doet " + damage  + " HP \n");
+				Console.Write(" aan en doet " + damage + " DP \n");
 			}
 		}
 
@@ -247,8 +247,8 @@ class Program
 			Console.Write("Attacks: ");
 			foreach (KeyValuePair<string, int> attack in PokemonFriendly.Attacks)
 			{
+				FriendlyNumberedAttacks.Add(attacksCount, attack.Value);
 				attacksCount++;
-				NumberedAttacks.Add(attacksCount, attack.Value);
 				Console.Write(attacksCount + ": " + attack.Key + " => " + attack.Value + " ");
 			}
 			Console.WriteLine("Kies je Attack...");
@@ -256,11 +256,14 @@ class Program
 			if (inputText != "" && inputText != " " && inputText.All(char.IsDigit)) //niet leeg, en alle characters moeten een nummer zijn
 			{
 				int inputNumber = Convert.ToInt32(inputText);
-				if (NumberedAttacks.ContainsKey(inputNumber))
+				if (FriendlyNumberedAttacks.ContainsKey(inputNumber))
 				{
-					PokemonFriendly.attackPokemon(PokemonEnemy, NumberedAttacks[inputNumber]);
-					displayAttack(PokemonFriendly, PokemonEnemy, NumberedAttacks[inputNumber]);
+					PokemonFriendly.attackPokemon(PokemonEnemy, FriendlyNumberedAttacks[inputNumber]);
+					displayAttack(PokemonFriendly, PokemonEnemy, FriendlyNumberedAttacks[inputNumber]);
 					displayPokemons();
+					attacksCount = 0;
+					FriendlyNumberedAttacks.Clear();
+					yourTurn = false;
 				}
 			}
 			else
@@ -270,9 +273,30 @@ class Program
 			}
 		}
 		displayPokemons();
-		if (yourTurn)
+		while (PokemonFriendly.HitPoints >= 0 && PokemonEnemy.HitPoints >= 0)
 		{
-			chooseAttack();
+			if (yourTurn)
+			{
+				chooseAttack();
+			}
+			else
+			{
+				foreach (KeyValuePair<string, int> attack in PokemonEnemy.Attacks)
+				{
+					EnemyNumberedAttacks.Add(attacksCount, attack.Value);
+					attacksCount++;
+				}
+
+				Random random = new Random();
+				int randomInt = random.Next(1, PokemonEnemy.Attacks.Count);
+
+				PokemonEnemy.attackPokemon(PokemonFriendly, EnemyNumberedAttacks[randomInt]);
+				displayAttack(PokemonEnemy, PokemonFriendly, EnemyNumberedAttacks[randomInt]);
+				displayPokemons();
+				yourTurn = true;
+				attacksCount = 0;
+				EnemyNumberedAttacks.Clear();
+			}
 		}
 		Console.ReadKey();
 	}
