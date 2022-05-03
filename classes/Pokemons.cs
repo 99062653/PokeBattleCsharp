@@ -30,7 +30,7 @@ namespace PokemonsSpace
 			return Population;
 		}
 
-		public static Pokemon? getPokemonByName(string name) // ? zodat het null returns toestaat
+		public static Pokemon getPokemonByName(string name) // ? zodat het null returns toestaat
 		{
 			foreach (var pokemon in Population)
 			{
