@@ -85,10 +85,12 @@ namespace PokemonsSpace
 			if (reciever.Weakness.ContainsKey(this.EnergyType))
 			{
 				attackdamage = attackdamage * reciever.Weakness[this.EnergyType];
+				reciever.HitPoints = reciever.HitPoints - attackdamage;
 			}
 			else if (reciever.Resistance.ContainsKey(this.EnergyType))
 			{
 				attackdamage = attackdamage / reciever.Weakness[this.EnergyType];
+				reciever.HitPoints = reciever.HitPoints - attackdamage;
 			} 
 			else
 			{
@@ -104,7 +106,7 @@ namespace PokemonsSpace
 		{
 			//Console.WriteLine("Initializing Pokemons...");
 			Pokemon Pikachu = new Pokemon("Pikachu", "Electric", 72, new Dictionary<string, int> { { "Electric Shock", 50 }, { "Quick Attack", 25 } }, new Dictionary<string, int> { { "Water", 2 } }, new Dictionary<string, int> {{ "Electric", 2 }});
-			Pokemon Bulbasaur = new Pokemon("Bulbasaur", "Grass", 72, new Dictionary<string, int> { { "Vine Whip", 50 }, { "Tackle", 25 } }, new Dictionary<string, int> { { "Fire", 2 } }, new Dictionary<string, int> {{ "Grass", 2 }});
+			Pokemon Bulbasaur = new Pokemon("Bulbasaur", "Grass", 72, new Dictionary<string, int> { { "Vine Whip", 50 }, { "Tackle", 25 } }, new Dictionary<string, int> { { "Electric", 2 } }, new Dictionary<string, int> {{ "Grass", 2 }});
 
 			Pokemons.Population = Pokemons.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer OPNIEUW gebruikt wordt
 		}
