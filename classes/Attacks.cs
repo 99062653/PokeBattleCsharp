@@ -5,6 +5,5 @@ namespace AttacksSpace
 		public string Name = "";
 		public int Damage;
 		public int EnergyCost;
-		
 	}
 }
