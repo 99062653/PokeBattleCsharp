@@ -2,19 +2,16 @@
 
 class Program
 {
-	public static Boolean loadFirstGenPokemons = true;
-	public static Boolean loadSecondGenPokemons = true;
-	public static Boolean loadThirdGenPokemons = true;
 	public static IDictionary<int, Pokemon> NumberedPokemons = new Dictionary<int, Pokemon>();
 	public static Pokemon PokemonFriendly;
 	public static Pokemon PokemonEnemy;
 	public static string Logo = @" 
 	______     _       ______       _   _   _      
 	| ___ \   | |      | ___ \     | | | | | |     
-	| |_/ /__ | | _____| |_/ / __ _| |_| |_| | ___         ___  _      _     _  _        _                        
-	|  __/ _ \| |/ / _ \ ___ \/ _` | __| __| |/ _ \       | _ \(_) __ | |__ | || | _  _ (_) ___ _ __   __ _  _ _  
-	| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/       |   /| |/ _|| / / | __ || || || |(_-<| '  \ / _` || ' \ 
-	\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|       |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
+	| |_/ /__ | | _____| |_/ / __ _| |_| |_| | ___        ___  _      _     _  _        _                        
+	|  __/ _ \| |/ / _ \ ___ \/ _` | __| __| |/ _ \      | _ \(_) __ | |__ | || | _  _ (_) ___ _ __   __ _  _ _  
+	| | | (_) |   <  __/ |_/ / (_| | |_| |_| |  __/      |   /| |/ _|| / / | __ || || || |(_-<| '  \ / _` || ' \ 
+	\_|  \___/|_|\_\___\____/ \__,_|\__|\__|_|\___|      |_|_\|_|\__||_\_\ |_||_| \_,_||_|/__/|_|_|_|\__,_||_||_|
 	";
 
 	public void Settings()
@@ -38,28 +35,13 @@ class Program
 		Console.ForegroundColor = ConsoleColor.Black;
 	}
 
-	public void loadPokemon(int generation)
+	public void loadPokemon()
 	{
 		Program Game = new Program();
 		var Group = Pokemons.Population;
-		switch (generation)
-		{
-			case 0:
-				Group = Pokemons.Population;
-				break;
-			case 1:
-				Group = Pokemons.PopulationFirstGen;
-				break;
-			case 2:
-				Group = Pokemons.PopulationSecondGen;
-				break;
-			case 3:
-				Group = Pokemons.PopulationThirdGen;
-				break;
-		}
 
 		int numberCount = 0;
-		foreach (var pokemon in Group)
+		foreach (var pokemon in Pokemons.Population)
 		{
 			numberCount++;
 			NumberedPokemons.Add(numberCount, pokemon);
@@ -186,8 +168,11 @@ class Program
 
 	public void battlePokemon()
 	{
+		IDictionary<int, Dictionary<string, int>> NumberedAttacks = new Dictionary<int, Dictionary<string, int>>();
 		IDictionary<string, int> FriendlyAttacks = new Dictionary<string, int>();
 		IDictionary<string, int> EnemyAttacks = new Dictionary<string, int>();
+		Boolean yourTurn = true;
+		int attacksCount = 0;
 
 		Console.Clear();
 		Console.ForegroundColor = ConsoleColor.Magenta;
@@ -198,6 +183,7 @@ class Program
 		Console.ForegroundColor = ConsoleColor.Black;
 		Console.Write(PokemonFriendly.Name);
 		Console.ResetColor();
+		Console.Write(" => " + PokemonFriendly.HitPoints + "/" + PokemonFriendly.Health);
 
 		Console.Write(" vs ");
 
@@ -205,8 +191,18 @@ class Program
 		Console.ForegroundColor = ConsoleColor.Black;
 		Console.Write(PokemonEnemy.Name);
 		Console.ResetColor();
-		Console.WriteLine("");
+		Console.Write(" => " + PokemonEnemy.HitPoints + "/" + PokemonEnemy.Health + "\n");
 
+		if (yourTurn)
+		{
+			Console.WriteLine("Jij bent aan de beurt!");
+			Console.Write("Attacks: ");
+			foreach (KeyValuePair<string, int> attack in PokemonFriendly.Attacks)
+			{
+				attacksCount++;
+				Console.Write(attacksCount + ": " + attack.Key + " => " + attack.Value + " ");
+			}
+		}
 		Console.ReadKey();
 	}
 
@@ -215,17 +211,12 @@ class Program
 		Program Game = new Program();
 		Game.Settings();
 
-		Console.ForegroundColor = ConsoleColor.Magenta;
-		Console.WriteLine(Logo);
-		Console.ResetColor();
-
-		Init.InitializePokemons();
-
-		Console.WriteLine("Druk op ENTER om te starten...");
+		Console.WriteLine("Druk op ENTER om te starten en ESC om te stoppen...");
 		ConsoleKey Button = Console.ReadKey().Key; //.Key is de knop die gedrukt is
 		if (Button == ConsoleKey.Enter)
 		{
-			Game.loadPokemon(0);
+			Init.InitializePokemons();
+			Game.loadPokemon();
 			Console.WriteLine("Klaar! Druk op een toets om verder te gaan...");
 
 			Button = Console.ReadKey().Key;
@@ -238,10 +229,23 @@ class Program
 				Game.choosePokemon("Friendly");
 			}
 		}
+		else if (Button == ConsoleKey.Escape)
+		{
+			Environment.Exit(0); //Stopt het spel
+		}
+		else
+		{
+			Console.WriteLine("");
+			Game.startGame();
+		}
 	}
 
 	public static void Main()
 	{
+		Console.ForegroundColor = ConsoleColor.Magenta;
+		Console.WriteLine(Logo);
+		Console.ResetColor();
+
 		Program actualGame = new Program();
 		actualGame.startGame();
 	}
