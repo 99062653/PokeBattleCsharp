@@ -35,18 +35,6 @@ namespace PokemonsSpace
 			return Population;
 		}
 
-		public static Pokemon getPokemonByName(string name) // ? zodat het null returns toestaat
-		{
-			foreach (var pokemon in Population)
-			{
-				if (pokemon.Name == name)
-				{
-					return pokemon;
-				}
-			}
-			return null;
-		}
-
 		public static void removePokemonFromPopulation(Pokemon pokemon)
 		{
 			Population.Remove(pokemon);
@@ -88,17 +76,15 @@ namespace PokemonsSpace
 
 		public void attackPokemon(Pokemon reciever, int attackdamage) // val andere pokemons aan NOG NODIG: WEAKNESS EN RESISTANCE!!!
 		{
-			if (reciever.Weaknesses.Contains(this.EnergyType))
+			if (reciever.Weaknesses.Any(w => w.EnergyType == this.EnergyType)) // w = weakness
 			{
-				attackdamage = attackdamage * reciever.Weakness[this.EnergyType];
-				reciever.HitPoints = reciever.HitPoints - attackdamage;
+				attackdamage = attackdamage * 2;
 			}
-			else if (reciever.Resistance.ContainsKey(this.EnergyType))
+			else if (reciever.Resistances.Any(r => r.EnergyType == this.EnergyType)) // r = resistance
 			{
-				attackdamage = attackdamage / reciever.Weakness[this.EnergyType];
-				reciever.HitPoints = reciever.HitPoints - attackdamage;
+				attackdamage = attackdamage / 2;
 			} 
-			else
+			else 
 			{
 				reciever.HitPoints = reciever.HitPoints - attackdamage;
 			}

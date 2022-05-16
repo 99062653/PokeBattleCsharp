@@ -211,14 +211,14 @@ class Program
 
 		void displayAttack(Pokemon attacker, Pokemon reciever, int damage)
 		{
-			if (reciever.Weakness.ContainsKey(attacker.EnergyType.ToString()))
+			if (reciever.Weaknesses.Any(w => w.EnergyType == attacker.EnergyType)) // w = weakness
 			{
-				damage = damage * reciever.Weakness[attacker.EnergyType.ToString()];
+				damage = damage * 2;
 			}
-			else if (reciever.Resistance.ContainsKey(attacker.EnergyType.ToString()))
+			else if (reciever.Resistances.Any(r => r.EnergyType == attacker.EnergyType)) // r = resistance
 			{
-				damage = damage / reciever.Weakness[attacker.EnergyType.ToString()];
-			} 
+				damage = damage / 2;
+			}
 
 			Thread.Sleep(50); // laad effect
 			Console.WriteLine("");
