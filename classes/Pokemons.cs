@@ -14,7 +14,7 @@ namespace PokemonsSpace
 			{"Fighting", ConsoleColor.DarkRed},
 			{"Poison", ConsoleColor.DarkGreen},
 			{"Ground", ConsoleColor.DarkGray},
-			{"Flying", ConsoleColor.DarkGray},
+			{"Flying", ConsoleColor.DarkGray},// ENUM
 			{"Psychic", ConsoleColor.DarkGray},
 			{"Bug", ConsoleColor.DarkGray},
 			{"Rock", ConsoleColor.DarkGray},
