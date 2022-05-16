@@ -1,6 +1,9 @@
-﻿using PokemonsSpace;
-using AttacksSpace;
+﻿using MainSpace;
+using PokemonsSpace;
 using EnergyTypeSpace;
+using AttacksSpace;
+using WeaknessSpace;
+using ResistanceSpace;
 
 class Program
 {
@@ -96,37 +99,37 @@ class Program
 
 				Console.WriteLine("-Attacks: ");
 				int attackCount = 0;
-				foreach (KeyValuePair<string, int> attack in ChosenPokemon.Attacks)
+				foreach (var attack in ChosenPokemon.Attacks)
 				{
 					attackCount++;
-					Console.WriteLine(" " + attackCount + ": " + attack.Key + " => " + attack.Value);
+					Console.WriteLine(" " + attackCount + ": " + attack.Name + " => " + attack.Damage);
 					Thread.Sleep(50);
 				}
 
 				Console.WriteLine("-Weakness: ");
 				int weaknessCount = 0;
-				foreach (KeyValuePair<EnergyType, int> weakness in ChosenPokemon.Weakness)
+				foreach (var weakness in ChosenPokemon.Weaknesses)
 				{
 					weaknessCount++;
 					Console.Write(" " + weaknessCount + ": ");
-					displayColors(weakness.Key);
-					Console.Write(weakness.Key);
+					displayColors(weakness.EnergyType);
+					Console.Write(weakness.EnergyType);
 					Console.ResetColor();
-					Console.Write(" => " + weakness.Value);
+					Console.Write(" => " + weakness.Modifier);
 					Console.WriteLine("");
 					Thread.Sleep(50);
 				}
 
 				Console.WriteLine("-Resistance: ");
 				int resistanceCount = 0;
-				foreach (KeyValuePair<string, int> resistance in ChosenPokemon.Resistance)
+				foreach (var resistance in ChosenPokemon.Resistances)
 				{
 					resistanceCount++;
 					Console.Write(" " + resistanceCount + ": ");
-					displayColors(resistance.Key);
-					Console.Write(resistance.Key);
+					displayColors(resistance.EnergyType);
+					Console.Write(resistance.EnergyType);
 					Console.ResetColor();
-					Console.Write(" => " + resistance.Value);
+					Console.Write(" => " + resistance.Modifier);
 					Console.WriteLine("");
 					Thread.Sleep(50);
 				}
@@ -259,12 +262,12 @@ class Program
 		{
 			Console.WriteLine("\nJij bent aan de beurt!");
 			Console.Write("Attacks: ");
-			foreach (KeyValuePair<string, int> attack in PokemonFriendly.Attacks)
+			foreach (var attack in PokemonFriendly.Attacks)
 			{
-				FriendlyNumberedAttacks.Add(attacksCount, attack.Value);
+				FriendlyNumberedAttacks.Add(attacksCount, attack.Damage);
 				attacksCount++;
 				Thread.Sleep(50); // laad effect
-				Console.Write((attacksCount - 1) + ": " + attack.Key + " => " + attack.Value + " ");
+				Console.Write((attacksCount - 1) + ": " + attack.Name + " => " + attack.Damage + " "); // -1 want anders klopt het niet meer
 			}
 			Console.WriteLine("Kies je Attack...");
 			string inputText = Console.ReadLine();
@@ -302,9 +305,9 @@ class Program
 			}
 			else
 			{
-				foreach (KeyValuePair<string, int> attack in PokemonEnemy.Attacks)
+				foreach (var attack in PokemonEnemy.Attacks)
 				{
-					EnemyNumberedAttacks.Add(attacksCount, attack.Value);
+					EnemyNumberedAttacks.Add(attacksCount, attack.Damage);
 					attacksCount++;
 				}
 

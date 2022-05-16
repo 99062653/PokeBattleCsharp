@@ -60,19 +60,19 @@ namespace PokemonsSpace
 		public EnergyType EnergyType { get; set; }
 		public int Health { get; set; }
 		public int HitPoints { get; set; }
-		public IDictionary<string, int> Attacks = new Dictionary<string, int>();
-		public IDictionary<string, int> Weakness = new Dictionary<string, int>();
-		public IDictionary<string, int> Resistance = new Dictionary<string, int>();
+		public List<Attack> Attacks { get; set; }
+		public List<Weakness> Weaknesses { get; set; }
+		public List<Resistance> Resistances { get; set; }
 
-		public Pokemon(string name, EnergyType energytype, int health, IDictionary<string, int> attacks, IDictionary<string, int> weakness, IDictionary<string, int> resistance)
+		public Pokemon(string name, EnergyType energytype, int health, List<Attack> attacks, List<Weakness> weaknesses, List<Resistance> resistances)
 		{
 			this.Name = name;
 			this.EnergyType = energytype;
 			this.Health = health;
 			this.HitPoints = health;
 			this.Attacks = attacks;
-			this.Weakness = weakness;
-			this.Resistance = resistance;
+			this.Weaknesses = weaknesses;
+			this.Resistances = resistances;
 
 			Pokemon.Population.Add(this); // de HELE populatie
 		}
@@ -88,14 +88,14 @@ namespace PokemonsSpace
 
 		public void attackPokemon(Pokemon reciever, int attackdamage) // val andere pokemons aan NOG NODIG: WEAKNESS EN RESISTANCE!!!
 		{
-			if (reciever.Weakness.ContainsKey(this.EnergyType.ToString())) //omdat het een enum nu is MOET het toString
+			if (reciever.Weaknesses.Contains(this.EnergyType))
 			{
-				attackdamage = attackdamage * reciever.Weakness[this.EnergyType.ToString()];
+				attackdamage = attackdamage * reciever.Weakness[this.EnergyType];
 				reciever.HitPoints = reciever.HitPoints - attackdamage;
 			}
-			else if (reciever.Resistance.ContainsKey(this.EnergyType.ToString()))
+			else if (reciever.Resistance.ContainsKey(this.EnergyType))
 			{
-				attackdamage = attackdamage / reciever.Weakness[this.EnergyType.ToString()];
+				attackdamage = attackdamage / reciever.Weakness[this.EnergyType];
 				reciever.HitPoints = reciever.HitPoints - attackdamage;
 			} 
 			else
@@ -103,18 +103,6 @@ namespace PokemonsSpace
 				reciever.HitPoints = reciever.HitPoints - attackdamage;
 			}
 			checkHp(reciever);
-		}
-	}
-
-	class Init
-	{
-		public static void InitializePokemons()
-		{
-			//Console.WriteLine("Initializing Pokemons...");
-			Pokemon Pikachu = new Pokemon("Pikachu", EnergyType.Electric, 72, new Dictionary<string, int> { { "Electric Shock", 50 }, { "Quick Attack", 25 } }, new Dictionary<string, int> { { "Water", 2 } }, new Dictionary<string, int> {{ "Electric", 2 }});
-			Pokemon Bulbasaur = new Pokemon("Bulbasaur", EnergyType.Grass, 72, new Dictionary<string, int> { { "Vine Whip", 50 }, { "Tackle", 25 } }, new Dictionary<string, int> { { "Electric", 2 } }, new Dictionary<string, int> {{ "Grass", 2 }});
-
-			Pokemons.Population = Pokemons.Population.OrderBy(i => Guid.NewGuid()).ToList(); //shuffle de lijst -> guid is een 128 character die nooit meer OPNIEUW gebruikt wordt
 		}
 	}
 }
