@@ -55,7 +55,7 @@ class Program
 			numberCount++;
 			NumberedPokemons.Add(numberCount, pokemon);
 			Console.Write(numberCount + " " + pokemon.Name + ": ");
-			displayColors(pokemon.EnergyType);
+			displayColors(pokemon.EnergyType.ToString());
 			Console.Write(pokemon.EnergyType);
 			Console.ResetColor();
 			Console.Write(" => " + pokemon.HitPoints + "/" + pokemon.Health + "\r\n");
@@ -86,7 +86,7 @@ class Program
 				Console.WriteLine("Gekozen Pokemon: " + ChosenPokemon.Name);
 
 				Console.Write("-EnergyType: ");
-				displayColors(ChosenPokemon.EnergyType);
+				displayColors(ChosenPokemon.EnergyType.ToString());
 				Console.Write(ChosenPokemon.EnergyType);
 				Console.ResetColor();
 
@@ -207,13 +207,13 @@ class Program
 
 		void displayAttack(Pokemon attacker, Pokemon reciever, int damage)
 		{
-			if (reciever.Weakness.ContainsKey(attacker.EnergyType))
+			if (reciever.Weakness.ContainsKey(attacker.EnergyType.ToString()))
 			{
-				damage = damage * reciever.Weakness[attacker.EnergyType];
+				damage = damage * reciever.Weakness[attacker.EnergyType.ToString()];
 			}
-			else if (reciever.Resistance.ContainsKey(attacker.EnergyType))
+			else if (reciever.Resistance.ContainsKey(attacker.EnergyType.ToString()))
 			{
-				damage = damage / reciever.Weakness[attacker.EnergyType];
+				damage = damage / reciever.Weakness[attacker.EnergyType.ToString()];
 			} 
 
 			Thread.Sleep(50); // laad effect
