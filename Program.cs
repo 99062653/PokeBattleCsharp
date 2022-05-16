@@ -1,5 +1,6 @@
 ﻿using PokemonsSpace;
 using AttacksSpace;
+using EnergyTypeSpace;
 
 class Program
 {
@@ -30,7 +31,7 @@ class Program
 		Console.BackgroundColor = ConsoleColor.Black; //background color van de console
 	}
 
-	public ConsoleColor getColorByEnergyType(string EnergyType)
+	public ConsoleColor getColorByEnergyType(EnergyType EnergyType)
 	{
 		ConsoleColor CorrectColor;
 		Pokemons.EnergytypeAndColors.TryGetValue(EnergyType, out CorrectColor);
@@ -38,7 +39,7 @@ class Program
 		return CorrectColor;
 	}
 
-	public void displayColors(string energyColor)
+	public void displayColors(EnergyType energyColor)
 	{
 		Console.BackgroundColor = getColorByEnergyType(energyColor);
 		Console.ForegroundColor = ConsoleColor.Black;
@@ -55,7 +56,7 @@ class Program
 			numberCount++;
 			NumberedPokemons.Add(numberCount, pokemon);
 			Console.Write(numberCount + " " + pokemon.Name + ": ");
-			displayColors(pokemon.EnergyType.ToString());
+			displayColors(pokemon.EnergyType);
 			Console.Write(pokemon.EnergyType);
 			Console.ResetColor();
 			Console.Write(" => " + pokemon.HitPoints + "/" + pokemon.Health + "\r\n");
@@ -86,7 +87,7 @@ class Program
 				Console.WriteLine("Gekozen Pokemon: " + ChosenPokemon.Name);
 
 				Console.Write("-EnergyType: ");
-				displayColors(ChosenPokemon.EnergyType.ToString());
+				displayColors(ChosenPokemon.EnergyType);
 				Console.Write(ChosenPokemon.EnergyType);
 				Console.ResetColor();
 
@@ -104,7 +105,7 @@ class Program
 
 				Console.WriteLine("-Weakness: ");
 				int weaknessCount = 0;
-				foreach (KeyValuePair<string, int> weakness in ChosenPokemon.Weakness)
+				foreach (KeyValuePair<EnergyType, int> weakness in ChosenPokemon.Weakness)
 				{
 					weaknessCount++;
 					Console.Write(" " + weaknessCount + ": ");

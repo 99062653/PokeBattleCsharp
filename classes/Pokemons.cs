@@ -1,49 +1,33 @@
+using EnergyTypeSpace;
+using AttacksSpace;
+using WeaknessSpace;
+using ResistanceSpace;
+
 namespace PokemonsSpace
 {
-	enum EnergyType
-	{
-		Normal,
-		Fire,
-		Water,
-		Electric,
-		Grass,
-		Ice,
-		Fighting,
-		Poison,
-		Ground,
-		Flying,
-		Psychic,
-		Bug,
-		Rock,
-		Ghost,
-		Dragon,
-		Dark,
-		Steel,
-		Fairy,
-	}
 	class Pokemons
 	{
 		public static List<Pokemon> Population = new List<Pokemon>();
-		public static IDictionary<string, ConsoleColor> EnergytypeAndColors = new Dictionary<string, ConsoleColor>
+		public static IDictionary<EnergyType, ConsoleColor> EnergytypeAndColors = new Dictionary<EnergyType, ConsoleColor>
 		{
-			{EnergyType.Normal.ToString(), ConsoleColor.White},
-			{EnergyType.Fire.ToString(), ConsoleColor.Red},
-			{EnergyType.Water.ToString(), ConsoleColor.Blue},
-			{EnergyType.Electric.ToString(), ConsoleColor.Yellow},
-			{EnergyType.Grass.ToString(), ConsoleColor.Green},
-			{EnergyType.Ice.ToString(), ConsoleColor.Cyan},
-			{EnergyType.Fighting.ToString(), ConsoleColor.DarkRed},
-			{EnergyType.Poison.ToString(), ConsoleColor.DarkGreen},
-			{EnergyType.Ground.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Flying.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Psychic.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Bug.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Rock.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Ghost.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Dragon.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Dark.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Steel.ToString(), ConsoleColor.DarkGray},
-			{EnergyType.Fairy.ToString(), ConsoleColor.DarkGray}
+			{EnergyType.Normal, ConsoleColor.White},
+			{EnergyType.Fire, ConsoleColor.Red},
+			{EnergyType.Water, ConsoleColor.Blue},
+			{EnergyType.Electric, ConsoleColor.Yellow},
+			{EnergyType.Grass, ConsoleColor.Green},
+			{EnergyType.Ice, ConsoleColor.Cyan},
+			{EnergyType.Fighting, ConsoleColor.DarkRed},
+			{EnergyType.Poison, ConsoleColor.DarkGreen},
+			{EnergyType.Ground, ConsoleColor.DarkGray},
+			{EnergyType.Flying, ConsoleColor.DarkGray},
+			{EnergyType.Psychic, ConsoleColor.DarkGray},
+			{EnergyType.Bug, ConsoleColor.DarkGray},
+			{EnergyType.Rock, ConsoleColor.DarkGray},
+			{EnergyType.Ghost, ConsoleColor.DarkGray},
+			{EnergyType.Dragon, ConsoleColor.DarkGray},
+			{EnergyType.Dark, ConsoleColor.DarkGray},
+			{EnergyType.Steel, ConsoleColor.DarkGray},
+			{EnergyType.Fairy, ConsoleColor.DarkGray}
 		};
 
 		public static List<Pokemon> GetPopulation()
@@ -72,10 +56,10 @@ namespace PokemonsSpace
 
 	class Pokemon : Pokemons
 	{
-		public string Name = "";
-		public EnergyType EnergyType;
-		public int Health;
-		public int HitPoints;
+		public string Name { get; set; }
+		public EnergyType EnergyType { get; set; }
+		public int Health { get; set; }
+		public int HitPoints { get; set; }
 		public IDictionary<string, int> Attacks = new Dictionary<string, int>();
 		public IDictionary<string, int> Weakness = new Dictionary<string, int>();
 		public IDictionary<string, int> Resistance = new Dictionary<string, int>();
