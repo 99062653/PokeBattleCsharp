@@ -1,9 +1,7 @@
 ﻿using MainSpace;
 using PokemonsSpace;
-using EnergyTypeSpace;
 using AttacksSpace;
-using WeaknessSpace;
-using ResistanceSpace;
+using MiscSpace;
 
 class Program
 {
@@ -233,7 +231,12 @@ class Program
 				Console.ForegroundColor = ConsoleColor.Black;
 				Console.Write(PokemonEnemy.Name);
 				Console.ResetColor();
-				Console.Write(" aan met " + attack.Name + " en doet " + attack.Damage + " DP \n");
+				Console.Write(" aan met "); 
+				Console.BackgroundColor = getColorByEnergyType(attack.EnergyType);
+				Console.ForegroundColor = ConsoleColor.Black;
+				Console.Write(attack.Name);
+				Console.ResetColor();
+				Console.Write(" en doet " + attack.Damage + " DP \n");
 			}
 			else
 			{
@@ -246,7 +249,12 @@ class Program
 				Console.ForegroundColor = ConsoleColor.Black;
 				Console.Write(PokemonFriendly.Name);
 				Console.ResetColor();
-				Console.Write(" aan met " + attack.Name + " en doet " + attack.Damage + " DP \n");
+				Console.Write(" aan met "); 
+				Console.BackgroundColor = getColorByEnergyType(attack.EnergyType);
+				Console.ForegroundColor = ConsoleColor.Black;
+				Console.Write(attack.Name);
+				Console.ResetColor();
+				Console.Write(" en doet " + attack.Damage + " DP \n");
 			}
 		}
 

@@ -1,8 +1,6 @@
 using PokemonsSpace;
-using EnergyTypeSpace;
 using AttacksSpace;
-using WeaknessSpace;
-using ResistanceSpace;
+using MiscSpace;
 
 namespace MainSpace
 {

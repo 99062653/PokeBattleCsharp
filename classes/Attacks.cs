@@ -1,4 +1,4 @@
-using EnergyTypeSpace;
+using MiscSpace;
 
 namespace AttacksSpace
 {

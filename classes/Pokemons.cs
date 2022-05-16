@@ -1,8 +1,5 @@
-using EnergyTypeSpace;
 using AttacksSpace;
-using WeaknessSpace;
-using ResistanceSpace;
-
+using MiscSpace;
 namespace PokemonsSpace
 {
 	class Pokemons
@@ -29,12 +26,7 @@ namespace PokemonsSpace
 			{EnergyType.Steel, ConsoleColor.DarkGray},
 			{EnergyType.Fairy, ConsoleColor.DarkGray}
 		};
-
-		public static List<Pokemon> GetPopulation()
-		{
-			return Population;
-		}
-
+	
 		public static void removePokemonFromPopulation(Pokemon pokemon)
 		{
 			Population.Remove(pokemon);
@@ -65,7 +57,7 @@ namespace PokemonsSpace
 			Pokemon.Population.Add(this); // de HELE populatie
 		}
 
-		public void checkHp(Pokemon pokemon) // kijkt naar de HitPoints. en zet ze naar 0 als ze lager zijn dan 0
+		private void checkHp(Pokemon pokemon) // kijkt naar de HitPoints. en zet ze naar 0 als ze lager zijn dan 0
 		{
 			if (pokemon.HitPoints <= 0)
 			{
