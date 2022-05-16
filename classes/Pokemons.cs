@@ -74,19 +74,19 @@ namespace PokemonsSpace
 			}
 		}
 
-		public void attackPokemon(Pokemon reciever, int attackdamage) // val andere pokemons aan NOG NODIG: WEAKNESS EN RESISTANCE!!!
+		public void attackPokemon(Pokemon reciever, Attack attack) // val andere pokemons aan NOG NODIG: WEAKNESS EN RESISTANCE!!!
 		{
 			if (reciever.Weaknesses.Any(w => w.EnergyType == this.EnergyType)) // w = weakness
 			{
-				attackdamage = attackdamage * 2;
+				attack.Damage = attack.Damage * 2;
 			}
 			else if (reciever.Resistances.Any(r => r.EnergyType == this.EnergyType)) // r = resistance
 			{
-				attackdamage = attackdamage / 2;
+				attack.Damage = attack.Damage / 2;
 			} 
 			else 
 			{
-				reciever.HitPoints = reciever.HitPoints - attackdamage;
+				reciever.HitPoints = reciever.HitPoints - attack.Damage;
 			}
 			checkHp(reciever);
 		}

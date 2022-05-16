@@ -185,8 +185,8 @@ class Program
 
 	public void battlePokemon()
 	{
-		IDictionary<int, int> FriendlyNumberedAttacks = new Dictionary<int, int>();
-		IDictionary<int, int> EnemyNumberedAttacks = new Dictionary<int, int>();
+		IDictionary<int, Attack> FriendlyNumberedAttacks = new Dictionary<int, Attack>();
+		IDictionary<int, Attack> EnemyNumberedAttacks = new Dictionary<int, Attack>();
 		Boolean yourTurn = true;
 		int attacksCount = 1; // 1 omdat hij anders bij 0 begint
 
@@ -209,15 +209,15 @@ class Program
 			Console.Write(" => " + PokemonEnemy.HitPoints + "/" + PokemonEnemy.Health + "\n");
 		}
 
-		void displayAttack(Pokemon attacker, Pokemon reciever, int damage)
+		void displayAttack(Pokemon attacker, Pokemon reciever, Attack attack)
 		{
 			if (reciever.Weaknesses.Any(w => w.EnergyType == attacker.EnergyType)) // w = weakness
 			{
-				damage = damage * 2;
+				attack.Damage = attack.Damage * 2;
 			}
 			else if (reciever.Resistances.Any(r => r.EnergyType == attacker.EnergyType)) // r = resistance
 			{
-				damage = damage / 2;
+				attack.Damage = attack.Damage / 2;
 			}
 
 			Thread.Sleep(50); // laad effect
@@ -233,7 +233,7 @@ class Program
 				Console.ForegroundColor = ConsoleColor.Black;
 				Console.Write(PokemonEnemy.Name);
 				Console.ResetColor();
-				Console.Write(" aan en doet " + damage + " DP \n");
+				Console.Write(" aan met " + attack.Name + " en doet " + attack.Damage + " DP \n");
 			}
 			else
 			{
@@ -246,7 +246,7 @@ class Program
 				Console.ForegroundColor = ConsoleColor.Black;
 				Console.Write(PokemonFriendly.Name);
 				Console.ResetColor();
-				Console.Write(" aan en doet " + damage + " DP \n");
+				Console.Write(" aan met " + attack.Name + " en doet " + attack.Damage + " DP \n");
 			}
 		}
 
@@ -264,7 +264,7 @@ class Program
 			Console.Write("Attacks: ");
 			foreach (var attack in PokemonFriendly.Attacks)
 			{
-				FriendlyNumberedAttacks.Add(attacksCount, attack.Damage);
+				FriendlyNumberedAttacks.Add(attacksCount, attack);
 				attacksCount++;
 				Thread.Sleep(50); // laad effect
 				Console.Write((attacksCount - 1) + ": " + attack.Name + " => " + attack.Damage + " "); // -1 want anders klopt het niet meer
@@ -307,7 +307,7 @@ class Program
 			{
 				foreach (var attack in PokemonEnemy.Attacks)
 				{
-					EnemyNumberedAttacks.Add(attacksCount, attack.Damage);
+					EnemyNumberedAttacks.Add(attacksCount, attack);
 					attacksCount++;
 				}
 
