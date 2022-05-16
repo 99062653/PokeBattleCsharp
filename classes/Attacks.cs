@@ -19,7 +19,7 @@ namespace AttacksSpace
 			this.Damage = damage;
 			this.EnergyType = energytype;
 
-			Attacks.AllAttacks.Add(this); // de HELE populatie
+			Attacks.AllAttacks.Add(this); // ALLE ATTACKS
 		}
 	}
 }
