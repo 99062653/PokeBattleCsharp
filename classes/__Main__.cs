@@ -1,8 +1,4 @@
-using PokemonsSpace;
-using AttacksSpace;
-using MiscSpace;
-
-namespace MainSpace
+namespace PokemonNameSpace
 {
 	class Init
 	{

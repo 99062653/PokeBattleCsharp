@@ -1,7 +1,4 @@
-﻿using MainSpace;
-using PokemonsSpace;
-using AttacksSpace;
-using MiscSpace;
+﻿using PokemonNameSpace;
 
 class Program
 {

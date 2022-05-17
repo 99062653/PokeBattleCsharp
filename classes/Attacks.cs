@@ -1,6 +1,4 @@
-using MiscSpace;
-
-namespace AttacksSpace
+namespace PokemonNameSpace
 {
 	class Attacks
 	{

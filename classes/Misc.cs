@@ -1,4 +1,4 @@
-namespace MiscSpace
+namespace PokemonNameSpace
 {
 	enum EnergyType //Kris vertelde mij om enums te gebruiken, handig!
 	{
@@ -19,7 +19,7 @@ namespace MiscSpace
 		Dragon,
 		Dark,
 		Steel,
-		Fairy,
+		Fairy
 	}
 
 	abstract class MiscValues //abstract classes zijn classes die alleen gemaakt zijn om gebruikt te worden door andere classes
