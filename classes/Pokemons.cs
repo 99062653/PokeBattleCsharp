@@ -29,7 +29,6 @@ namespace PokemonNameSpace
 		{
 			Population.Remove(pokemon);
 		}
-	
 	}
 
 	class Pokemon : Pokemons
@@ -37,12 +36,10 @@ namespace PokemonNameSpace
 		public string Name { get; set; } // de naam van de pokemon
 		public EnergyType EnergyType { get; set; } // de energie type van de pokemon
 		public int Health { get; set; } // de health van de pokemon
-		public int HitPoints { get; set; } // de hitpoints van de pokemon
+		public int HitPoints { get; set; }
 		public List<Attack> Attacks { get; set; } // de attacks van de pokemon 
 		public List<Weakness> Weaknesses { get; set; } // de weaknesses van de pokemon 
 		public List<Resistance> Resistances { get; set; } // de resistances van de pokemon
-
-		public Pokemon() { } //dit zorgt ervoor dat subclasses geen gezeik krijgen
 
 		public Pokemon(string name, EnergyType energytype, int health, List<Attack> attacks, List<Weakness> weaknesses, List<Resistance> resistances)
 		{
@@ -53,11 +50,12 @@ namespace PokemonNameSpace
 			this.Attacks = attacks;
 			this.Weaknesses = weaknesses;
 			this.Resistances = resistances;
-
-			Pokemon.Population.Add(this); // hier voeg ik de pokemon toe aan de populatie
 		}
 
-		private void checkHp(Pokemon pokemon) // kijkt naar de HitPoints. en zet ze naar 0 als ze lager zijn dan 0
+		/**
+		 * kijkt naar de HitPoints. en zet ze naar 0 als ze lager zijn dan 0
+		 */
+		private void checkHp(Pokemon pokemon)
 		{
 			if (pokemon.HitPoints <= 0)
 			{
