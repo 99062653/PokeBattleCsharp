@@ -1,4 +1,4 @@
-namespace MiscSpace
+namespace PokemonNameSpace
 {
 	enum EnergyType //Kris vertelde mij om enums te gebruiken, handig!
 	{
@@ -19,13 +19,13 @@ namespace MiscSpace
 		Dragon,
 		Dark,
 		Steel,
-		Fairy,
+		Fairy
 	}
 
 	abstract class MiscValues //abstract classes zijn classes die alleen gemaakt zijn om gebruikt te worden door andere classes
 	{
-		public EnergyType EnergyType { get; set; }
-		public int Modifier { get; set; }
+		public EnergyType EnergyType { get; set; } // energy type van weakness/resistance
+		public int Modifier { get; set; } // de modifier van weakness/resistance
 	}
 
 	class Resistance : MiscValues

@@ -1,8 +1,8 @@
 namespace PokemonNameSpace
 {
-    class Bulbasaur : Pokemon
+    class Charmander : Pokemon
     {
-        public Bulbasaur(string name, EnergyType energytype, int health, List<Attack> attacks, List<Weakness> weaknesses, List<Resistance> resistances)
+        public Charmander(string name, EnergyType energytype, int health, List<Attack> attacks, List<Weakness> weaknesses, List<Resistance> resistances)
          : base(name, energytype, health, attacks, weaknesses, resistances)
         {
             this.Name = name;

@@ -1,7 +1,4 @@
-﻿using MainSpace;
-using PokemonsSpace;
-using AttacksSpace;
-using MiscSpace;
+﻿using PokemonNameSpace;
 
 class Program
 {
@@ -32,7 +29,7 @@ class Program
 		Console.BackgroundColor = ConsoleColor.Black; //background color van de console
 	}
 
-	public ConsoleColor getColorByEnergyType(EnergyType EnergyType)
+	public ConsoleColor getColorByEnergyType(EnergyType EnergyType) // deze method zorgt ervoor dat ik de juiste kleur van een energytype krijg
 	{
 		ConsoleColor CorrectColor;
 		Pokemons.EnergytypeAndColors.TryGetValue(EnergyType, out CorrectColor);
@@ -40,26 +37,28 @@ class Program
 		return CorrectColor;
 	}
 
-	public void displayColors(EnergyType energyColor)
+	public void displayEnergyColor(EnergyType energyColor) // deze method zorgt ervoor dat ik de juiste kleur toon (short handed code basically)
 	{
 		Console.BackgroundColor = getColorByEnergyType(energyColor);
 		Console.ForegroundColor = ConsoleColor.Black;
 	}
 
+	public void displayWriteReset(EnergyType energytext) // deze method zet de juiste kleur, voert de write en reset uit
+	{
+		displayEnergyColor(energytext);
+		Console.Write(energytext);
+		Console.ResetColor();
+	}
+
 	public void loadPokemon()
 	{
-		Program Game = new Program();
-		var Group = Pokemons.Population;
-
 		int numberCount = 0;
 		foreach (var pokemon in Pokemons.Population)
 		{
 			numberCount++;
 			NumberedPokemons.Add(numberCount, pokemon);
 			Console.Write(numberCount + " " + pokemon.Name + ": ");
-			displayColors(pokemon.EnergyType);
-			Console.Write(pokemon.EnergyType);
-			Console.ResetColor();
+			displayWriteReset(pokemon.EnergyType);
 			Console.Write(" => " + pokemon.HitPoints + "/" + pokemon.Health + "\r\n");
 
 			Thread.Sleep(50); // laat het ff wachten, geeft een cool laad effect
@@ -88,9 +87,7 @@ class Program
 				Console.WriteLine("Gekozen Pokemon: " + ChosenPokemon.Name);
 
 				Console.Write("-EnergyType: ");
-				displayColors(ChosenPokemon.EnergyType);
-				Console.Write(ChosenPokemon.EnergyType);
-				Console.ResetColor();
+				displayWriteReset(ChosenPokemon.EnergyType);
 
 				Console.WriteLine("");
 				Console.WriteLine("-HitPoints: " + ChosenPokemon.HitPoints);
@@ -110,9 +107,7 @@ class Program
 				{
 					weaknessCount++;
 					Console.Write(" " + weaknessCount + ": ");
-					displayColors(weakness.EnergyType);
-					Console.Write(weakness.EnergyType);
-					Console.ResetColor();
+					displayWriteReset(weakness.EnergyType);
 					Console.Write(" => " + weakness.Modifier);
 					Console.WriteLine("");
 					Thread.Sleep(50);
@@ -124,9 +119,7 @@ class Program
 				{
 					resistanceCount++;
 					Console.Write(" " + resistanceCount + ": ");
-					displayColors(resistance.EnergyType);
-					Console.Write(resistance.EnergyType);
-					Console.ResetColor();
+					displayWriteReset(resistance.EnergyType);
 					Console.Write(" => " + resistance.Modifier);
 					Console.WriteLine("");
 					Thread.Sleep(50);
@@ -232,8 +225,7 @@ class Program
 				Console.Write(PokemonEnemy.Name);
 				Console.ResetColor();
 				Console.Write(" aan met "); 
-				Console.BackgroundColor = getColorByEnergyType(attack.EnergyType);
-				Console.ForegroundColor = ConsoleColor.Black;
+				displayEnergyColor(attack.EnergyType);
 				Console.Write(attack.Name);
 				Console.ResetColor();
 				Console.Write(" en doet " + attack.Damage + " DP \n");
@@ -250,8 +242,7 @@ class Program
 				Console.Write(PokemonFriendly.Name);
 				Console.ResetColor();
 				Console.Write(" aan met "); 
-				Console.BackgroundColor = getColorByEnergyType(attack.EnergyType);
-				Console.ForegroundColor = ConsoleColor.Black;
+				displayEnergyColor(attack.EnergyType);
 				Console.Write(attack.Name);
 				Console.ResetColor();
 				Console.Write(" en doet " + attack.Damage + " DP \n");
@@ -319,7 +310,7 @@ class Program
 					attacksCount++;
 				}
 
-				Random random = new Random();
+				var random = new Random();
 				int randomInt = random.Next(1, PokemonEnemy.Attacks.Count);
 
 				PokemonEnemy.attackPokemon(PokemonFriendly, EnemyNumberedAttacks[randomInt]);
@@ -344,7 +335,7 @@ class Program
 
 	public void startGame()
 	{
-		Program Game = new Program();
+		var Game = new Program();
 		Game.Settings();
 		NumberedPokemons.Clear();
 
@@ -362,11 +353,11 @@ class Program
 			Button = Console.ReadKey().Key;
 			if (Button == ConsoleKey.Enter)
 			{
-				Game.choosePokemon("Friendly");
+				Game.choosePokemon("Friendly"); // kies de pokemon die jij speelt
 			}
 			else
 			{
-				Game.choosePokemon("Friendly");
+				Game.choosePokemon("Friendly"); // kis de pokemon waar je tegen speelt
 			}
 		}
 		else if (Button == ConsoleKey.Escape)
@@ -384,7 +375,7 @@ class Program
 	{
 		displayLogo();
 
-		Program actualGame = new Program();
+		var actualGame = new Program();
 		actualGame.startGame();
 	}
 
